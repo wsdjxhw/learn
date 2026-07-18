@@ -41,4 +41,5 @@ def chat(payload: ChatRequest) -> dict:
         "reply": reply,
         "provider": get_provider_name(),
         "model": get_model_name(),
+        "message_length": len(payload.message),
     }
