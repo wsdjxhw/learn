@@ -11,6 +11,7 @@ app = FastAPI(title="FastAPI Route Types")
 todos: list[dict] = [
     {"id": 1, "title": "Learn GET", "done": True},
     {"id": 2, "title": "Learn POST", "done": False},
+    {"id": 3, "title": "Learn PUT", "done": False},
 ]
 
 
@@ -35,17 +36,23 @@ class TodoPatch(BaseModel):
 
 
 @app.get("/todos")
-def list_todos(done: bool | None = None) -> dict:
+def list_todos(done: bool | None = None,keyword: str | None = None) -> dict:
     # done 是查询参数。
     # 访问 /todos?done=true 时，只返回已完成任务。
     # 访问 /todos?done=false 时，只返回未完成任务。
     # 如果不传 done，就返回全部任务。
-    if done is None:
+    if done is None and keyword is None:
         return {"items": todos}
-
-    # 列表推导式：只保留 done 值和查询参数一致的数据。
-    filtered = [todo for todo in todos if todo["done"] == done]
+    if done is None:
+        filtered = [todo for todo in todos if keyword.lower() in todo["title"].lower()]
+        return {"items": filtered}
+    if keyword is None:
+        filtered = [todo for todo in todos if todo["done"] == done]
+        return {"items": filtered}
+    filtered = [todo for todo in todos if todo["done"] == done and keyword.lower() in todo["title"].lower()]
     return {"items": filtered}
+
+    
 
 
 @app.get("/todos/{todo_id}")
@@ -59,6 +66,13 @@ def get_todo(todo_id: int) -> dict:
     # 如果找不到对应 id，就返回 404。
     raise HTTPException(status_code=404, detail="Todo not found")
 
+@app.get("/stats")
+def get_stats() -> dict:
+    total_all = len(todos)
+    total_done = sum(1 for todo in todos if todo["done"])
+    return {
+        "total": total_all,
+        "done": total_done,}
 
 @app.post("/todos")
 def create_todo(payload: TodoCreate) -> dict:
