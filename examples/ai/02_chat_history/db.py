@@ -51,11 +51,17 @@ def create_session(title: str) -> dict:
         return dict(row)
 
 
-def list_sessions() -> list[dict]:
+def list_sessions(keyword: str = None) -> list[dict]:
     with get_connection() as connection:
-        rows = connection.execute(
-            "SELECT id, title, created_at FROM sessions ORDER BY id DESC"
-        ).fetchall()
+        if keyword:
+            rows = connection.execute(
+                "SELECT id, title, created_at FROM sessions WHERE title LIKE ? ORDER BY id DESC",
+                (f"%{keyword}%",),
+            ).fetchall()
+        else:
+            rows = connection.execute(
+                "SELECT id, title, created_at FROM sessions ORDER BY id DESC"
+            ).fetchall()
         return [dict(row) for row in rows]
 
 
