@@ -49,9 +49,9 @@ def create_chat_session(payload: SessionCreate) -> dict:
 
 
 @app.get("/sessions")
-def get_chat_sessions() -> dict:
+def get_chat_sessions(keyword: str = None) -> dict:
     # 查看所有会话。
-    return {"items": list_sessions()}
+    return {"items": list_sessions(keyword)}
 
 
 @app.get("/sessions/{session_id}/messages")
