@@ -1,327 +1,331 @@
-# AI 应用开发大方向学习计划
+# AI 应用开发学习路线
 
-这份计划是项目的长期路线图。它不是要求一次性完成，而是告诉你每个阶段要解决什么问题。
+这份路线按项目的真实进度重排。
 
-## 代码示例维护要求
+当前主线是：
 
-本项目面向 Python 基础不扎实的学习者。后续每个代码示例都必须有足够细节的中文教学注释，重点解释参数来源、方法作用、类的含义、返回值结构、配置读取方式，以及可以类比 Java 的概念。
+```text
+Python 基础
+-> FastAPI
+-> DeepSeek 调用
+-> 聊天历史
+-> SQLAlchemy
+-> RAG
+-> 后台任务
+-> 生产化能力
+```
 
-## 阶段 1：编程语言最小入门
+Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能力补充。
 
-目标：能读懂示例代码，并能做小范围修改。
+## 已完成阶段
 
-### Python
+### 阶段 1：Python 最小基础
 
-重点内容：
+目标：能读懂简单脚本，并能做小范围修改。
 
-- 变量、字符串、列表、字典
-- `if`、`for`、函数
-- 文件读写
-- JSON 处理
+已覆盖内容：
+
+- 函数
+- 字符串
+- 列表
+- 字典
+- 文件读取
+- JSON
 - HTTP 请求
-- 虚拟环境和依赖安装
+- 异常处理
 
-最低要求：
-
-- 能运行 Python 脚本
-- 能定义函数
-- 能返回字典
-- 能读取文件
-- 能调用一个 HTTP API
-
-对应示例：
+对应模块：
 
 - `examples/python/01_text_tool.py`
 - `examples/python/02_http_json.py`
 
-### Go
+### 阶段 2：FastAPI Web API
 
-重点内容：
+目标：理解 Python 代码如何变成 HTTP 接口。
 
-- 基础语法
-- 结构体
-- 切片
-- map
-- 错误处理
-- `net/http`
+已覆盖内容：
 
-最低要求：
-
-- 能看懂 Go 的结构体和函数
-- 能写一个最小 HTTP 服务
-- 知道 Go 更适合做后端服务、网关、并发任务
-
-对应示例：
-
-- `examples/go/01_struct_and_slice.go`
-- `examples/go/02_http_server.go`
-
-## 阶段 2：Web API 基础
-
-目标：理解“代码如何变成接口”。
-
-重点内容：
-
-- FastAPI 应用对象
-- 路由
-- 请求体
-- 响应 JSON
+- `uvicorn`
+- `/docs`
+- `GET`
+- `POST`
+- `PUT`
+- `PATCH`
+- `DELETE`
 - 路径参数
 - 查询参数
-- 常见 HTTP 方法
+- 请求体
+- `BaseModel`
 
-需要掌握的接口类型：
-
-- `GET`：查询数据
-- `POST`：新增数据
-- `PUT`：整体替换数据
-- `PATCH`：局部修改数据
-- `DELETE`：删除数据
-
-最低要求：
-
-- 能启动 `uvicorn`
-- 能打开 `/docs`
-- 能用 `/docs` 测试接口
-- 能新增一个接口
-- 能区分路径参数、查询参数、请求体
-
-对应示例：
+对应模块：
 
 - `examples/python/03_fastapi_app/main.py`
 - `examples/python/04_fastapi_routes/main.py`
 
-## 阶段 3：AI 接口调用
+### 阶段 3：DeepSeek 聊天接口
 
-目标：理解 AI 应用后端最小结构。
+目标：理解 AI 应用后端的最小分层。
 
-重点内容：
+已覆盖内容：
 
-- `.env` 配置文件
-- API Key
+- `.env`
+- `DEEPSEEK_API_KEY`
 - mock 模式
-- 模型 provider 层
-- 系统提示词
-- 用户消息
-- 模型回复
+- provider 层
+- `system_prompt`
+- `/chat`
 
-最低要求：
+对应模块：
 
-- 能配置 DeepSeek key
-- 能在没有 key 时使用 mock
-- 能看懂 `main.py` 和 `provider.py` 的分工
-- 能调用 `/chat`
+- `examples/ai/01_chat_api`
 
-对应示例：
+### 阶段 4：聊天历史
 
-- `examples/ai/01_chat_api/main.py`
-- `examples/ai/01_chat_api/provider.py`
+目标：让一次性问答变成有状态聊天。
 
-## 阶段 4：聊天历史和数据库
+已覆盖内容：
 
-目标：让 AI 应用从一次性问答变成有状态应用。
+- `sessions` 表
+- `messages` 表
+- `user` 消息
+- `assistant` 消息
+- 历史消息查询
+- 带历史调用模型
 
-重点内容：
+对应模块：
 
-- 会话表 `sessions`
-- 消息表 `messages`
-- `session_id` 关联
-- 保存用户消息
-- 保存 AI 回复
-- 查询历史消息
-- 把历史消息传给模型
+- `examples/ai/02_chat_history`
 
-当前阶段使用 SQLite。
+### 阶段 5：SQLAlchemy 数据库版本
 
-为什么：
+目标：从手写 SQL 过渡到 ORM。
 
-- 不需要安装数据库服务
-- 适合本地学习
-- 能先掌握表设计和读写流程
-
-后续再迁移到 PostgreSQL。
-
-最低要求：
-
-- 能创建会话
-- 能发送消息
-- 能查出历史消息
-- 能说清楚 user / assistant 两类消息
-- 能看懂 `db.py` 的数据访问函数
-
-对应示例：
-
-- `examples/ai/02_chat_history/main.py`
-- `examples/ai/02_chat_history/db.py`
-- `examples/ai/02_chat_history/provider.py`
-
-## 阶段 5：ORM 和 PostgreSQL
-
-目标：把学习 Demo 逐步靠近真实项目。
-
-重点内容：
+已覆盖内容：
 
 - SQLAlchemy
-- 数据模型
-- 数据库连接串
-- PostgreSQL
-- 数据库迁移
-- Alembic
+- ORM Model
+- Pydantic Schema
+- `Session`
+- `DATABASE_URL`
+- 简单统计接口
+- 为 PostgreSQL 做准备
 
-要解决的问题：
+对应模块：
 
-- 直接写 SQL 会越来越难维护
-- SQLite 不适合多人在线生产环境
-- 正式项目需要迁移和版本管理
+- `examples/ai/03_sqlalchemy_database`
 
-最低要求：
+### 阶段 6：RAG 文档问答
 
-- 能把 SQLite 版本迁移成 SQLAlchemy 版本
-- 能把数据库切到 PostgreSQL
-- 能理解表结构迁移
+目标：理解 RAG 的最小链路。
 
-## 阶段 6：RAG 文档问答
+已覆盖内容：
 
-目标：让 AI 能基于你自己的资料回答问题。
-
-重点内容：
-
-- 文档上传
+- 文档录入
 - 文本切分
-- embedding
-- 向量库
-- 相似度检索
-- 检索结果拼接到 prompt
-- 回答时返回引用来源
+- chunk 存储
+- 简单关键词检索
+- sources 来源引用
+- mock / DeepSeek 回答
 
-要解决的问题：
+对应模块：
 
-- 模型不知道你的本地文档
-- 直接把长文档塞进 prompt 成本高，也容易超上下文
-- RAG 让模型先检索资料，再回答
+- `examples/ai/04_rag_document_qa`
 
-最低要求：
+当前限制：
 
-- 能上传一个文本文件
-- 能把文本切成片段
-- 能按问题检索相关片段
-- 能带着片段调用模型
-- 能返回来源
+- 还没有 embedding。
+- 还没有向量数据库。
+- 检索方式只是关键词匹配。
+- 有资料时模型仍可能说资料不足，后续会通过 prompt 设计、检索质量和上下文构造继续优化。
 
-## 阶段 7：任务队列和异步处理
+### 阶段 7：后台任务和状态查询
 
-目标：处理耗时任务。
+目标：理解耗时任务如何从同步接口拆出去。
 
-重点内容：
+已覆盖内容：
 
-- 后台任务
+- 创建任务
+- `task_id`
+- `pending`
+- `running`
+- `succeeded`
+- `failed`
+- 后台 worker
 - 状态查询
-- 文件处理任务
-- 失败重试
-- Redis 基础
-- 简单队列
 
-典型场景：
+对应模块：
 
-- 上传文档后需要慢慢解析
-- 生成长报告需要等待
-- 批量处理文件不能阻塞接口
+- `examples/ai/05_background_tasks`
 
-最低要求：
+## 后续阶段
 
-- 能提交一个任务
-- 能查询任务状态
-- 能区分同步接口和异步任务
+### 阶段 8：PostgreSQL 实战
 
-## 阶段 8：认证、限流和日志
+目标：从本地 SQLite 切到真正的 PostgreSQL。
 
-目标：让应用具备基本安全性和可维护性。
+要补的内容：
 
-重点内容：
+- 安装或连接 PostgreSQL
+- 创建数据库
+- 配置账号密码
+- 使用 PostgreSQL `DATABASE_URL`
+- 验证 SQLAlchemy 切换数据库
+- 理解 SQLite 和 PostgreSQL 的差异
+
+对应未来模块：
+
+- `examples/ai/06_postgresql_setup`
+
+### 阶段 9：Alembic 数据库迁移
+
+目标：学会正式项目里如何管理表结构变化。
+
+要补的内容：
+
+- 初始化 Alembic
+- 生成迁移文件
+- 执行升级
+- 执行回滚
+- 给表新增字段
+- 理解为什么不能生产环境直接 `create_all`
+
+对应未来模块：
+
+- `examples/ai/07_alembic_migrations`
+
+### 阶段 10：向量化 RAG
+
+目标：把关键词检索升级成 embedding 检索。
+
+要补的内容：
+
+- embedding 是什么
+- 文本如何转向量
+- 向量相似度
+- 向量库
+- chunk embedding 入库
+- 查询 embedding
+- top-k 向量检索
+
+对应未来模块：
+
+- `examples/ai/08_vector_rag`
+
+### 阶段 11：流式输出
+
+目标：让聊天接口像真实 AI 产品一样逐步返回内容。
+
+要补的内容：
+
+- 普通响应和流式响应的区别
+- Server-Sent Events
+- DeepSeek 流式返回
+- 前端如何消费流式数据
+- 错误中断处理
+
+对应未来模块：
+
+- `examples/ai/09_streaming_chat`
+
+### 阶段 12：认证、限流和日志
+
+目标：补齐 AI API 的基础安全和可观察性。
+
+要补的内容：
 
 - API Key 鉴权
-- 用户登录的基本概念
 - 请求日志
 - 错误日志
-- 接口限流
+- 模型调用日志
+- 简单限流
 - 统一错误响应
+- 成本记录
 
-要解决的问题：
+对应未来模块：
 
-- 不能让任何人无限调用你的模型接口
-- 模型调用有成本
-- 出错后需要能定位问题
+- `examples/ai/10_auth_rate_limit_logging`
 
-最低要求：
+### 阶段 13：前端聊天页面
 
-- 能给接口加一个简单鉴权
-- 能记录每次请求
-- 能统一返回错误格式
+目标：把后端接口变成可使用的页面。
 
-## 阶段 9：前端和产品化
+要补的内容：
 
-目标：让后端能力变成可使用的应用。
-
-重点内容：
-
-- 简单 HTML 页面
-- Streamlit
-- React 或 Vue
-- 聊天界面
+- 最小聊天 UI
 - 会话列表
-- 消息流式输出
+- 消息历史
+- 发送消息
+- 任务状态轮询
+- RAG sources 展示
 
-最低要求：
+对应未来模块：
 
-- 能做一个最小聊天页面
-- 能显示历史会话
-- 能调用后端 `/chat`
+- `examples/frontend/chat_ui`
 
-## 阶段 10：部署和工程化
+### 阶段 14：Docker 和部署
 
-目标：让应用可以在服务器上运行。
+目标：让项目可以在服务器上运行。
 
-重点内容：
+要补的内容：
 
-- Docker
+- Dockerfile
+- docker compose
 - 环境变量
-- 生产启动命令
-- 反向代理
-- 日志文件
+- PostgreSQL 容器
 - 健康检查
+- 生产启动命令
 
-最低要求：
+对应未来模块：
 
-- 能用 Docker 启动服务
-- 能配置生产环境变量
-- 能访问线上 `/health`
+- `deploy/docker`
 
-## 推荐学习节奏
+### 阶段 15：Go 后端补充
 
-每天 2 到 3 小时：
+目标：理解 Go 在 AI 应用里的后端角色。
 
-- 30 分钟看讲解
-- 90 分钟跑代码和改代码
-- 30 分钟复盘
+要补的内容：
 
-每一节都按这个顺序：
+- Go HTTP 服务
+- 请求转发
+- 简单网关
+- 并发任务
+- 调用 Python AI 服务
+- Go 和 Python 的分工
 
-1. 跑通
-2. 看懂输入、处理、输出
-3. 改一个小功能
-4. 自己重写关键部分
+对应已有基础示例：
 
-## 当前最重要的顺序
+- `examples/go/01_struct_and_slice.go`
+- `examples/go/02_http_server.go`
 
-先按这个顺序走：
+未来可扩展模块：
 
-1. Python 文本处理
-2. HTTP 和 JSON
-3. FastAPI 基础接口
-4. FastAPI 常见接口类型
-5. DeepSeek 聊天接口
-6. 带历史记录的聊天接口
-7. SQLAlchemy 和 PostgreSQL
-8. RAG 文档问答
+- `examples/go/03_ai_gateway`
 
-不要一开始就学 Agent 框架。先把 Web API、数据库、模型调用、历史记录这四个底座打稳。
+## 练习设计原则
+
+后续练习必须有真实学习价值。
+
+应该优先设计这些练习：
+
+- 能暴露真实工程问题。
+- 能观察状态变化。
+- 能理解完整链路。
+- 能练习异常处理。
+- 能做小型设计判断。
+
+避免这些练习：
+
+- 单纯改数字。
+- 单纯复制同类接口。
+- 单纯改返回文案。
+- 与当前模块目标高度同质化的任务。
+
+## 当前推荐下一步
+
+如果你已经完成 `05_background_tasks`，下一步应该进入：
+
+```text
+PostgreSQL 实战连接
+```
+
+原因是当前项目已经有 SQLite、SQLAlchemy、任务表、RAG 表。现在需要把数据库能力从“本地学习”推进到“真实项目可用”。

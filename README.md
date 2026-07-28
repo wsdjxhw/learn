@@ -1,66 +1,71 @@
 # AI 应用开发入门学习项目
 
-这是一个从零开始学习 AI 应用开发的开源入门项目。
+这是一个面向初学者的 AI 应用开发学习项目。
 
-项目目标不是一次性学完所有技术，而是用一条尽量短、可运行、能持续扩展的路线，带你从 Python 基础脚本走到一个带历史记录的 AI 聊天接口。
+项目目标不是一开始就学习复杂 Agent 框架或模型训练，而是用一组可以运行、可以修改、带详细注释的示例，逐步理解一个 AI 应用后端是怎么搭起来的。
 
-## 项目注意事项
-
-本项目面向 Python 基础不扎实的学习者，示例代码必须保留足够细节的中文教学注释。
-
-新增模块或修改代码时，要优先解释参数来源、方法作用、类的含义、返回值结构、配置读取方式，以及可以类比 Java 的概念。
+当前路线以 `Python + FastAPI + DeepSeek + SQLite/SQLAlchemy` 为主。Go 会作为后续后端补充方向，不作为当前主线。
 
 ## 适合谁
 
-适合这些学习者：
+- Python 语法还不熟，但想做 AI 应用。
+- 学过 Java，想用类比方式理解 Python 后端。
+- 想从脚本、接口、数据库、RAG、后台任务一步步学起。
+- 想把这个仓库作为自己的 AI 应用开发入门项目。
 
-- 会一点编程，想入门 AI 应用开发。
-- 学过 Java，想迁移到 Python / FastAPI。
-- 想知道 AI 应用后端到底由哪些部分组成。
-- 不想一开始就陷入复杂 Agent 框架、模型训练、微服务和部署细节。
+## 当前真实进度
 
-## 你会学到什么
+已经完成并进入学习路线的模块：
 
-这套项目当前覆盖：
+1. Python 文本处理
+2. HTTP 和 JSON
+3. FastAPI 最小接口
+4. FastAPI 常见接口类型
+5. DeepSeek 聊天接口
+6. 带聊天历史的聊天接口
+7. SQLAlchemy 数据库版本
+8. RAG 文档问答
+9. 后台任务和状态查询
 
-- Python 基础脚本
-- HTTP 和 JSON
-- FastAPI Web API
-- 常见接口类型：`GET`、`POST`、`PUT`、`PATCH`、`DELETE`
-- 请求参数：路径参数、查询参数、请求体
-- AI 聊天接口
-- DeepSeek API 配置
-- `.env` 本地配置文件
-- mock 模式
-- SQLite 保存聊天历史
-- 会话表和消息表的基本设计
+当前还没有正式展开的模块：
+
+- PostgreSQL 实战连接
+- Alembic 数据库迁移
+- 向量化 RAG
+- 流式输出
+- 认证、限流和日志
+- 前端聊天页面
+- Docker 部署
+- Go 后端补充
 
 ## 从哪里开始
 
-第一步只看：
+第一次学习先看：
 
 [START_HERE.md](START_HERE.md)
 
-不要一开始就把整个项目都看完。按下面顺序来。
+如果你已经学过前面的基础模块，可以直接进入当前 AI 主线：
 
-## 学习顺序
+[examples/ai](examples/ai)
+
+## 推荐学习顺序
 
 ### 1. Python 文本处理
 
-先学这个：
+代码：
 
 [examples/python/01_text_tool.py](examples/python/01_text_tool.py)
 
-配套讲解：
+讲解：
 
 [examples/python/01_text_tool_EXPLAINED.md](examples/python/01_text_tool_EXPLAINED.md)
 
-目标：
+学习目标：
 
-- 看懂函数
-- 看懂 `main()`
-- 看懂字符串、列表、字典
-- 能自己修改返回字段
+- 理解函数
+- 理解字符串、列表、字典
+- 理解 `main()` 程序入口
+- 能修改返回字段
 
 ### 2. HTTP 和 JSON
 
@@ -68,16 +73,16 @@
 
 [examples/python/02_http_json.py](examples/python/02_http_json.py)
 
-配套讲解：
+讲解：
 
 [examples/python/02_http_json_EXPLAINED.md](examples/python/02_http_json_EXPLAINED.md)
 
-目标：
+学习目标：
 
-- 知道什么是 HTTP 请求
-- 知道什么是 JSON
-- 知道 JSON 如何变成 Python 数据
-- 能遍历列表和字典
+- 理解 HTTP 请求
+- 理解 JSON
+- 理解列表和字典的数据处理
+- 理解网络异常处理
 
 ### 3. FastAPI 最小接口
 
@@ -85,13 +90,13 @@
 
 [examples/python/03_fastapi_app/main.py](examples/python/03_fastapi_app/main.py)
 
-目标：
+学习目标：
 
 - 启动 FastAPI 服务
 - 打开 `/docs`
-- 看懂 `GET /health`
-- 看懂 `POST /echo`
-- 理解 `BaseModel` 类似 Java 里的请求 DTO
+- 理解 `GET /health`
+- 理解 `POST /echo`
+- 理解 `BaseModel` 类似 Java 请求 DTO
 
 ### 4. FastAPI 常见接口类型
 
@@ -103,105 +108,149 @@
 
 [examples/python/04_fastapi_routes/README.md](examples/python/04_fastapi_routes/README.md)
 
-目标：
+学习目标：
 
 - 理解 `GET`、`POST`、`PUT`、`PATCH`、`DELETE`
 - 理解路径参数
 - 理解查询参数
 - 理解请求体
 
-### 5. 最小 DeepSeek 聊天接口
+### 5. DeepSeek 聊天接口
 
 代码：
 
 [examples/ai/01_chat_api/main.py](examples/ai/01_chat_api/main.py)
 
-模型调用层：
-
-[examples/ai/01_chat_api/provider.py](examples/ai/01_chat_api/provider.py)
-
 讲解：
 
 [examples/ai/01_chat_api/AI_CHAT_API_EXPLAINED.md](examples/ai/01_chat_api/AI_CHAT_API_EXPLAINED.md)
 
-目标：
+学习目标：
 
-- 理解接口层和模型调用层分离
-- 理解 `.env` 配置
+- 理解接口层和 provider 层分离
+- 理解 `.env`
 - 理解 mock 模式
-- 理解 DeepSeek API 调用流程
+- 理解 DeepSeek API 调用
 
-### 6. 带聊天历史的 AI 接口
+### 6. 带聊天历史的接口
 
 代码：
 
 [examples/ai/02_chat_history/main.py](examples/ai/02_chat_history/main.py)
 
-数据库层：
-
-[examples/ai/02_chat_history/db.py](examples/ai/02_chat_history/db.py)
-
 讲解：
 
 [examples/ai/02_chat_history/CHAT_HISTORY_EXPLAINED.md](examples/ai/02_chat_history/CHAT_HISTORY_EXPLAINED.md)
 
-目标：
+学习目标：
 
-- 创建会话
+- 理解会话表和消息表
 - 保存用户消息
 - 保存 AI 回复
 - 查询历史消息
-- 理解 SQLite 在学习阶段的作用
+- 把历史消息传给模型
 
-## 启动 FastAPI 示例
+### 7. SQLAlchemy 数据库版本
 
-进入对应目录后运行：
+代码：
+
+[examples/ai/03_sqlalchemy_database/main.py](examples/ai/03_sqlalchemy_database/main.py)
+
+讲解：
+
+[examples/ai/03_sqlalchemy_database/SQLALCHEMY_EXPLAINED.md](examples/ai/03_sqlalchemy_database/SQLALCHEMY_EXPLAINED.md)
+
+学习目标：
+
+- 理解 ORM
+- 理解 Entity 和 DTO 的区别
+- 理解 `Session`
+- 理解 `DATABASE_URL`
+- 为 PostgreSQL 和 Alembic 做准备
+
+### 8. RAG 文档问答
+
+代码：
+
+[examples/ai/04_rag_document_qa/main.py](examples/ai/04_rag_document_qa/main.py)
+
+讲解：
+
+[examples/ai/04_rag_document_qa/RAG_EXPLAINED.md](examples/ai/04_rag_document_qa/RAG_EXPLAINED.md)
+
+学习目标：
+
+- 理解文档切分
+- 理解 chunk
+- 理解检索
+- 理解 sources 来源引用
+- 理解 RAG 基本链路
+
+### 9. 后台任务和状态查询
+
+代码：
+
+[examples/ai/05_background_tasks/main.py](examples/ai/05_background_tasks/main.py)
+
+讲解：
+
+[examples/ai/05_background_tasks/BACKGROUND_TASKS_EXPLAINED.md](examples/ai/05_background_tasks/BACKGROUND_TASKS_EXPLAINED.md)
+
+学习目标：
+
+- 理解耗时任务为什么不能阻塞接口
+- 理解 `task_id`
+- 理解 `pending`、`running`、`succeeded`、`failed`
+- 理解后台 worker
+- 理解状态查询接口
+
+## FastAPI 示例怎么启动
+
+进入具体模块目录：
+
+```powershell
+cd examples\ai\05_background_tasks
+```
+
+启动：
 
 ```powershell
 python -m uvicorn main:app --reload
 ```
 
-默认访问地址：
+打开：
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-如果端口被占用，可以换端口：
+如果端口被占用：
 
 ```powershell
 python -m uvicorn main:app --reload --port 9000
 ```
 
-## 配置 DeepSeek
+## DeepSeek 配置
 
-AI 示例目录里有 `.env` 文件：
+AI 模块都提供 `.env.example`。
+
+本地 `.env` 示例：
 
 ```text
 DEEPSEEK_API_KEY=put-your-deepseek-api-key-here
 DEEPSEEK_MODEL=deepseek-v4-flash
 ```
 
-如果没有真实 key，会自动走 mock 模式。
+没有真实 key 时，会走 mock 模式。mock 模式用于学习接口流程，不调用真实模型。
 
-如果要调用真实 DeepSeek，把第一行改成你的 key。
+## 文档和代码要求
 
-## 为什么先用 SQLite
+这个仓库面向 Python 初学者，所以代码必须保留中文教学注释。
 
-学习阶段先用 SQLite，因为它不需要安装数据库服务，也不需要配置账号密码。
+每个模块的练习必须有实际学习价值，避免只做机械改数字、复制同类接口、只改返回文案这类低质量任务。
 
-真正要学的是这条链路：
+## 长期路线
 
-```text
-会话 -> 用户消息 -> AI 回复 -> 历史记录
-```
-
-后面可以再把 SQLite 换成 PostgreSQL。
-
-## 大路线
-
-完整方向看：
+完整后续计划看：
 
 [LEARNING_PLAN.md](LEARNING_PLAN.md)
-
-已经学到某一步卡住时，不要跳到后面。先把当前文件跑通、改动一次、再自己重写一遍。
