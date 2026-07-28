@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class SessionCreate(BaseModel):
     # 请求 DTO：创建会话时只需要 title。
     title: str
-    discussion: str | None = None
+    description: str | None = None
 
 
 class SessionRead(BaseModel):

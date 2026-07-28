@@ -32,7 +32,7 @@ def create_chat_session(
     db: Session = Depends(get_db),
 ) -> ChatSession:
     # 新建 ORM 对象，然后交给 SQLAlchemy 保存。
-    session = ChatSession(title=payload.title)
+    session = ChatSession(title=payload.title, description=payload.description)
     db.add(session)
     db.commit()
     db.refresh(session)
