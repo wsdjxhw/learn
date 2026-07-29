@@ -63,6 +63,7 @@
 3. [SQLAlchemy 数据库版本](examples/ai/03_sqlalchemy_database/README.md)
 4. [RAG 文档问答](examples/ai/04_rag_document_qa/README.md)
 5. [后台任务和状态查询](examples/ai/05_background_tasks/README.md)
+6. [PostgreSQL 实战连接](examples/ai/06_postgresql_setup/README.md)
 
 ## 每个模块怎么学
 

@@ -16,6 +16,7 @@
 - `ai/03_sqlalchemy_database`：SQLAlchemy 数据库版本
 - `ai/04_rag_document_qa`：RAG 文档问答
 - `ai/05_background_tasks`：后台任务和状态查询
+- `ai/06_postgresql_setup`：PostgreSQL 实战连接
 
 ## Go 补充
 

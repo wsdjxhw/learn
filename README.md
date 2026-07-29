@@ -26,10 +26,10 @@
 7. SQLAlchemy 数据库版本
 8. RAG 文档问答
 9. 后台任务和状态查询
+10. PostgreSQL 实战连接
 
 当前还没有正式展开的模块：
 
-- PostgreSQL 实战连接
 - Alembic 数据库迁移
 - 向量化 RAG
 - 流式输出
@@ -203,6 +203,24 @@
 - 理解 `pending`、`running`、`succeeded`、`failed`
 - 理解后台 worker
 - 理解状态查询接口
+
+### 10. PostgreSQL 实战连接
+
+代码：
+
+[examples/ai/06_postgresql_setup/main.py](examples/ai/06_postgresql_setup/main.py)
+
+讲解：
+
+[examples/ai/06_postgresql_setup/POSTGRESQL_EXPLAINED.md](examples/ai/06_postgresql_setup/POSTGRESQL_EXPLAINED.md)
+
+学习目标：
+
+- 理解 `DATABASE_URL`
+- 理解 SQLite 和 PostgreSQL 连接差异
+- 理解数据库健康检查
+- 验证 SQLAlchemy 切换数据库
+- 为 Alembic 数据库迁移做准备
 
 ## FastAPI 示例怎么启动
 

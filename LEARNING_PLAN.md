@@ -172,7 +172,7 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 - 验证 SQLAlchemy 切换数据库
 - 理解 SQLite 和 PostgreSQL 的差异
 
-对应未来模块：
+对应模块：
 
 - `examples/ai/06_postgresql_setup`
 
