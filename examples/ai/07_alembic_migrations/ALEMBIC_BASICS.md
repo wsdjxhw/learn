@@ -248,6 +248,9 @@ python -m alembic downgrade 202607290001
 
 ```powershell
 python -m alembic revision --autogenerate -m "add reviewed_at to articles"
+
+要求命名格式
+python -m alembic revision --autogenerate --rev-id 202607290004 -m "your message"
 ```
 
 注意：自动生成迁移后必须人工检查迁移文件。
