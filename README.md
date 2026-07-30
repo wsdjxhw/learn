@@ -27,10 +27,10 @@
 8. RAG 文档问答
 9. 后台任务和状态查询
 10. PostgreSQL 实战连接
+11. Alembic 数据库迁移
 
 当前还没有正式展开的模块：
 
-- Alembic 数据库迁移
 - 向量化 RAG
 - 流式输出
 - 认证、限流和日志
@@ -221,6 +221,24 @@
 - 理解数据库健康检查
 - 验证 SQLAlchemy 切换数据库
 - 为 Alembic 数据库迁移做准备
+
+### 11. Alembic 数据库迁移
+
+代码：
+
+[examples/ai/07_alembic_migrations/main.py](examples/ai/07_alembic_migrations/main.py)
+
+讲解：
+
+[examples/ai/07_alembic_migrations/ALEMBIC_EXPLAINED.md](examples/ai/07_alembic_migrations/ALEMBIC_EXPLAINED.md)
+
+学习目标：
+
+- 理解 `create_all` 的限制
+- 理解 Alembic revision、head、upgrade、downgrade
+- 执行数据库结构升级和回滚
+- 观察代码版本和数据库版本不匹配的问题
+- 理解已有数据下新增非空字段的风险
 
 ## FastAPI 示例怎么启动
 

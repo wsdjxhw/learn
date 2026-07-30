@@ -180,16 +180,16 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 目标：学会正式项目里如何管理表结构变化。
 
-要补的内容：
+已覆盖内容：
 
 - 初始化 Alembic
-- 生成迁移文件
+- 迁移文件结构
 - 执行升级
 - 执行回滚
 - 给表新增字段
 - 理解为什么不能生产环境直接 `create_all`
 
-对应未来模块：
+对应模块：
 
 - `examples/ai/07_alembic_migrations`
 
@@ -322,10 +322,10 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 ## 当前推荐下一步
 
-如果你已经完成 `05_background_tasks`，下一步应该进入：
+如果你已经完成 `06_postgresql_setup`，下一步应该进入：
 
 ```text
-PostgreSQL 实战连接
+Alembic 数据库迁移
 ```
 
-原因是当前项目已经有 SQLite、SQLAlchemy、任务表、RAG 表。现在需要把数据库能力从“本地学习”推进到“真实项目可用”。
+原因是你已经能把 SQLAlchemy 从 SQLite 切到 PostgreSQL。下一步要学会用版本化迁移管理表结构变化，而不是依赖 `create_all`。

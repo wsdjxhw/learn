@@ -64,6 +64,7 @@
 4. [RAG 文档问答](examples/ai/04_rag_document_qa/README.md)
 5. [后台任务和状态查询](examples/ai/05_background_tasks/README.md)
 6. [PostgreSQL 实战连接](examples/ai/06_postgresql_setup/README.md)
+7. [Alembic 数据库迁移](examples/ai/07_alembic_migrations/README.md)
 
 ## 每个模块怎么学
 
