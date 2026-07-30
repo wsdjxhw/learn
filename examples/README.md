@@ -20,6 +20,7 @@
 - `ai/07_alembic_migrations`：Alembic 数据库迁移
 - `ai/08_vector_rag`：向量化 RAG
 - `ai/09_streaming_chat`：流式聊天接口
+- `ai/10_auth_rate_limit_logging`：认证、限流和日志
 
 ## Go 补充
 

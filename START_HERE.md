@@ -67,6 +67,7 @@
 7. [Alembic 数据库迁移](examples/ai/07_alembic_migrations/README.md)
 8. [向量化 RAG](examples/ai/08_vector_rag/README.md)
 9. [流式聊天接口](examples/ai/09_streaming_chat/README.md)
+10. [认证、限流和日志](examples/ai/10_auth_rate_limit_logging/README.md)
 
 ## 每个模块怎么学
 

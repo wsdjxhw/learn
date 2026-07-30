@@ -32,10 +32,10 @@
 11. Alembic 数据库迁移
 12. 向量化 RAG 框架
 13. 流式聊天接口
+14. 认证、限流和日志
 
 当前还没有正式展开的模块：
 
-- 认证、限流和日志
 - 前端聊天页面
 - Docker 部署
 - Go 后端补充
@@ -280,6 +280,26 @@
 - 理解 `yield` 和生成器
 - 理解浏览器 `EventSource`
 - 理解流式错误处理
+
+### 14. 认证、限流和日志
+
+代码：
+
+[examples/ai/10_auth_rate_limit_logging/main.py](examples/ai/10_auth_rate_limit_logging/main.py)
+
+讲解：
+
+[examples/ai/10_auth_rate_limit_logging/AUTH_RATE_LIMIT_LOGGING_EXPLAINED.md](examples/ai/10_auth_rate_limit_logging/AUTH_RATE_LIMIT_LOGGING_EXPLAINED.md)
+
+学习目标：
+
+- 理解 API Key 鉴权
+- 理解 401、403、429
+- 理解简单限流
+- 理解请求日志和错误日志
+- 理解模型调用日志
+- 理解教学版成本统计
+- 理解统一错误响应
 
 ## FastAPI 示例怎么启动
 
