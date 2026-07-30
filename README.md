@@ -31,10 +31,10 @@
 10. PostgreSQL 实战连接
 11. Alembic 数据库迁移
 12. 向量化 RAG 框架
+13. 流式聊天接口
 
 当前还没有正式展开的模块：
 
-- 流式输出
 - 认证、限流和日志
 - 前端聊天页面
 - Docker 部署
@@ -261,6 +261,25 @@
 - 理解 cosine similarity
 - 理解 `top_k` 和 `min_score`
 - 理解教学版 mock embedding 和真实向量库的差异
+
+### 13. 流式聊天接口
+
+代码：
+
+[examples/ai/09_streaming_chat/main.py](examples/ai/09_streaming_chat/main.py)
+
+讲解：
+
+[examples/ai/09_streaming_chat/STREAMING_CHAT_EXPLAINED.md](examples/ai/09_streaming_chat/STREAMING_CHAT_EXPLAINED.md)
+
+学习目标：
+
+- 理解普通 JSON 响应和流式响应的区别
+- 理解 Server-Sent Events
+- 理解 `StreamingResponse`
+- 理解 `yield` 和生成器
+- 理解浏览器 `EventSource`
+- 理解流式错误处理
 
 ## FastAPI 示例怎么启动
 
