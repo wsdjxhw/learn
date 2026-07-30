@@ -18,6 +18,7 @@
 - `ai/05_background_tasks`：后台任务和状态查询
 - `ai/06_postgresql_setup`：PostgreSQL 实战连接
 - `ai/07_alembic_migrations`：Alembic 数据库迁移
+- `ai/08_vector_rag`：向量化 RAG
 
 ## Go 补充
 

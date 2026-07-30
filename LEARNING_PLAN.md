@@ -15,6 +15,8 @@ Python 基础
 -> 生产化能力
 ```
 
+这条主线更准确地说是“AI 应用后端地基”。它先解决接口、数据库、RAG、后台任务、部署等基础能力；真正的 Agent 会放在这条地基路线后面继续学习。
+
 Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能力补充。
 
 ## 已完成阶段
@@ -207,7 +209,7 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 - 查询 embedding
 - top-k 向量检索
 
-对应未来模块：
+对应模块：
 
 - `examples/ai/08_vector_rag`
 
@@ -301,6 +303,141 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 - `examples/go/03_ai_gateway`
 
+## Agent 进阶路线
+
+前面的模块本身不等于 Agent。它们是 Agent 需要复用的地基：
+
+- 聊天接口：模型入口。
+- 聊天历史：短期上下文。
+- 数据库：任务状态和记忆存储。
+- RAG：知识检索工具。
+- 后台任务：长任务执行能力。
+- 流式输出：展示 Agent 执行过程。
+- 认证、日志、部署：让 Agent 服务可以被真实使用。
+
+完成 AI 应用后端地基后，再进入 Agent 进阶。
+
+### 阶段 16：工具调用 Tool Calling
+
+目标：让模型不只是回答，而是能选择调用工具。
+
+要补的内容：
+
+- 什么是工具
+- 工具 schema
+- 模型如何选择工具
+- 工具参数从哪里来
+- 工具调用结果如何返回给模型
+- 工具调用失败如何处理
+- mock 工具和真实工具的区别
+
+对应未来模块：
+
+- `examples/agent/01_tool_calling`
+
+### 阶段 17：最小 Agent Loop
+
+目标：理解 Agent 的核心循环。
+
+要补的内容：
+
+- user input
+- model decision
+- tool call
+- observation
+- final answer
+- 最大循环次数
+- 防止无限调用
+- 中间步骤记录
+
+对应未来模块：
+
+- `examples/agent/02_minimal_agent_loop`
+
+### 阶段 18：带 RAG 工具的 Agent
+
+目标：把前面学过的 RAG 变成 Agent 可以主动调用的工具。
+
+要补的内容：
+
+- `search_documents` 工具
+- Agent 何时应该检索资料
+- sources 如何进入最终回答
+- 检索不到资料时如何追问或说明不足
+- RAG 工具和普通聊天的边界
+
+对应未来模块：
+
+- `examples/agent/03_rag_tool_agent`
+
+### 阶段 19：带数据库操作的 Agent
+
+目标：让 Agent 能读取和修改结构化数据。
+
+要补的内容：
+
+- 查询工具
+- 写入工具
+- 参数校验
+- 用户确认
+- 防止危险写操作
+- 操作日志
+
+对应未来模块：
+
+- `examples/agent/04_database_tool_agent`
+
+### 阶段 20：带后台任务的 Agent
+
+目标：让 Agent 能发起耗时任务，并查询任务进度。
+
+要补的内容：
+
+- 创建任务工具
+- 查询任务状态工具
+- `pending` / `running` / `succeeded` / `failed`
+- Agent 如何根据状态决定下一步
+- 任务失败后的恢复策略
+
+对应未来模块：
+
+- `examples/agent/05_background_task_agent`
+
+### 阶段 21：Agent 记忆
+
+目标：理解 Agent 如何保存和复用长期信息。
+
+要补的内容：
+
+- 短期上下文和长期记忆的区别
+- 记忆写入策略
+- 记忆检索
+- 用户偏好保存
+- 过期和删除
+- 隐私边界
+
+对应未来模块：
+
+- `examples/agent/06_agent_memory`
+
+### 阶段 22：Agent 可观测性和安全
+
+目标：让 Agent 的每一步可追踪、可调试、可限制。
+
+要补的内容：
+
+- tool call 日志
+- 中间步骤 trace
+- 错误记录
+- 成本记录
+- 工具权限
+- 人工确认
+- 最大执行时间
+
+对应未来模块：
+
+- `examples/agent/07_agent_observability_safety`
+
 ## 练习设计原则
 
 后续练习必须有真实学习价值。
@@ -322,10 +459,10 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 ## 当前推荐下一步
 
-如果你已经完成 `06_postgresql_setup`，下一步应该进入：
+如果你已经完成 `07_alembic_migrations`，下一步应该进入：
 
 ```text
-Alembic 数据库迁移
+向量化 RAG
 ```
 
-原因是你已经能把 SQLAlchemy 从 SQLite 切到 PostgreSQL。下一步要学会用版本化迁移管理表结构变化，而不是依赖 `create_all`。
+原因是你已经学过关键词版 RAG、PostgreSQL 和 Alembic。下一步要把 RAG 的检索部分从关键词匹配升级成 embedding 相似度检索，理解 chunk embedding 入库、查询 embedding、top-k 检索和相似度阈值。

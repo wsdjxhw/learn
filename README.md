@@ -6,6 +6,8 @@
 
 当前路线以 `Python + FastAPI + DeepSeek + SQLite/SQLAlchemy` 为主。Go 会作为后续后端补充方向，不作为当前主线。
 
+当前主线先打 AI 应用后端地基；Agent 相关内容会放在这条地基路线之后继续学习。
+
 ## 适合谁
 
 - Python 语法还不熟，但想做 AI 应用。
@@ -28,15 +30,16 @@
 9. 后台任务和状态查询
 10. PostgreSQL 实战连接
 11. Alembic 数据库迁移
+12. 向量化 RAG 框架
 
 当前还没有正式展开的模块：
 
-- 向量化 RAG
 - 流式输出
 - 认证、限流和日志
 - 前端聊天页面
 - Docker 部署
 - Go 后端补充
+- Agent 工具调用和 Agent Loop
 
 ## 从哪里开始
 
@@ -239,6 +242,25 @@
 - 执行数据库结构升级和回滚
 - 观察代码版本和数据库版本不匹配的问题
 - 理解已有数据下新增非空字段的风险
+
+### 12. 向量化 RAG
+
+代码：
+
+[examples/ai/08_vector_rag/main.py](examples/ai/08_vector_rag/main.py)
+
+讲解：
+
+[examples/ai/08_vector_rag/VECTOR_RAG_EXPLAINED.md](examples/ai/08_vector_rag/VECTOR_RAG_EXPLAINED.md)
+
+学习目标：
+
+- 理解 embedding 是什么
+- 理解 chunk embedding 入库
+- 理解查询 embedding
+- 理解 cosine similarity
+- 理解 `top_k` 和 `min_score`
+- 理解教学版 mock embedding 和真实向量库的差异
 
 ## FastAPI 示例怎么启动
 

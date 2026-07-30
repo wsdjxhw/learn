@@ -65,6 +65,7 @@
 5. [后台任务和状态查询](examples/ai/05_background_tasks/README.md)
 6. [PostgreSQL 实战连接](examples/ai/06_postgresql_setup/README.md)
 7. [Alembic 数据库迁移](examples/ai/07_alembic_migrations/README.md)
+8. [向量化 RAG](examples/ai/08_vector_rag/README.md)
 
 ## 每个模块怎么学
 
@@ -82,3 +83,5 @@
 完整路线看：
 
 [LEARNING_PLAN.md](LEARNING_PLAN.md)
+
+说明：当前主线先学习 AI 应用后端地基。Agent 工具调用、Agent Loop、Agent 记忆等内容会放在地基路线后面继续展开。
