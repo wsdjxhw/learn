@@ -33,10 +33,10 @@
 12. 向量化 RAG 框架
 13. 流式聊天接口
 14. 认证、限流和日志
+15. 前端聊天页面
 
 当前还没有正式展开的模块：
 
-- 前端聊天页面
 - Docker 部署
 - Go 后端补充
 - Agent 工具调用和 Agent Loop
@@ -300,6 +300,25 @@
 - 理解模型调用日志
 - 理解教学版成本统计
 - 理解统一错误响应
+
+### 15. 前端聊天页面
+
+代码：
+
+[examples/frontend/chat_ui/main.py](examples/frontend/chat_ui/main.py)
+
+讲解：
+
+[examples/frontend/chat_ui/CHAT_UI_EXPLAINED.md](examples/frontend/chat_ui/CHAT_UI_EXPLAINED.md)
+
+学习目标：
+
+- 理解会话列表
+- 理解消息历史
+- 理解发送消息和刷新消息
+- 理解任务状态轮询
+- 理解 sources 展示
+- 理解前端如何消费后端 API
 
 ## FastAPI 示例怎么启动
 

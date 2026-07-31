@@ -22,6 +22,10 @@
 - `ai/09_streaming_chat`：流式聊天接口
 - `ai/10_auth_rate_limit_logging`：认证、限流和日志
 
+## 前端
+
+- `frontend/chat_ui`：前端聊天页面
+
 ## Go 补充
 
 - `go/01_struct_and_slice.go`：结构体和切片
