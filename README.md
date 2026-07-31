@@ -34,10 +34,10 @@
 13. 流式聊天接口
 14. 认证、限流和日志
 15. 前端聊天页面
+16. Docker 和部署框架
 
 当前还没有正式展开的模块：
 
-- Docker 部署
 - Go 后端补充
 - Agent 工具调用和 Agent Loop
 
@@ -319,6 +319,24 @@
 - 理解任务状态轮询
 - 理解 sources 展示
 - 理解前端如何消费后端 API
+
+### 16. Docker 和部署
+
+配置：
+
+[deploy/docker](deploy/docker)
+
+讲解：
+
+[deploy/docker/DOCKER_DEPLOY_EXPLAINED.md](deploy/docker/DOCKER_DEPLOY_EXPLAINED.md)
+
+学习目标：
+
+- 理解 Dockerfile 和镜像构建
+- 理解 docker compose 同时启动多个服务
+- 理解环境变量和 `.env`
+- 理解数据卷保存 SQLite / PostgreSQL 数据
+- 理解健康检查和生产启动命令
 
 ## FastAPI 示例怎么启动
 

@@ -277,7 +277,7 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 - 健康检查
 - 生产启动命令
 
-对应未来模块：
+对应模块：
 
 - `deploy/docker`
 
@@ -464,5 +464,9 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 ```text
 Docker 和部署
 ```
+
+入口：
+
+- `deploy/docker`
 
 原因是你已经把后端接口变成了可使用页面。下一步要学习如何把服务打包成可部署形态，包括 Dockerfile、docker compose、环境变量、PostgreSQL 容器、健康检查和生产启动命令。

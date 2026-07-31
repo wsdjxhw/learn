@@ -1,0 +1,69 @@
+services:
+  app:
+    # build.context 指向仓库根目录，因为 Dockerfile 要复制 examples/frontend/chat_ui。
+    # dockerfile 指向本模块里的 Dockerfile。
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+
+    # env_file 会把 .env 里的配置传给容器。
+    # 类比本地 Python 读取 .env，只是这里由 Docker Compose 负责注入环境变量。
+    env_file:
+      - .env
+
+    environment:
+      # chat_ui 默认使用 SQLite。容器里如果还写到代码目录，重建容器时数据容易丢。
+      # 所以这里把 SQLite 文件放到 /app/data，再用下面的 volume 持久化。
+      CHAT_DB_PATH: /app/data/chat_ui.db
+
+    ports:
+      # 左边是宿主机端口，右边是容器端口。
+      # 访问 http://127.0.0.1:8000 实际会转发到容器里的 8000。
+      - "${APP_PORT:-8000}:8000"
+
+    volumes:
+      # 命名数据卷：Docker 管理实际存储位置，比直接写宿主机绝对路径更适合入门学习。
+      - chat_ui_data:/app/data
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    healthcheck:
+      # Compose 层再写一次健康检查，方便 docker compose ps 直接看到 app 是否 healthy。
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2).read()\""]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  postgres:
+    # PostgreSQL 容器用于学习“部署时数据库通常不再是本地文件”。
+    # 当前 chat_ui 代码仍默认使用 SQLite；这里先把数据库容器搭好，后续模块可以把应用存储切到 PostgreSQL。
+    image: postgres:16
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ai_learn}
+      POSTGRES_USER: ${POSTGRES_USER:-ai_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ai_password}
+
+    ports:
+      # 宿主机默认用 5433，避免和你本机已经安装的 PostgreSQL 5432 端口冲突。
+      # 容器内部仍然是 PostgreSQL 默认端口 5432。
+      - "${POSTGRES_PORT:-5433}:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      # pg_isready 是 PostgreSQL 镜像自带的健康检查命令。
+      # $$ 表示把变量留给容器内部解释，而不是让 Compose 在读取 yaml 时提前替换。
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  chat_ui_data:
+  postgres_data:

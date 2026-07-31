@@ -1,0 +1,15 @@
+# 这个文件只服务于 deploy/docker/Dockerfile。
+# 目标是减少发送给 Docker daemon 的构建上下文，避免把虚拟环境、数据库文件、密钥文件打进镜像。
+
+.git
+.venv
+__pycache__
+*.pyc
+*.db
+.env
+
+# 当前 Dockerfile 只需要前端聊天模块，不需要把所有示例都复制进镜像。
+examples/ai
+examples/go
+examples/python
+roadmap

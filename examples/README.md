@@ -26,6 +26,10 @@
 
 - `frontend/chat_ui`：前端聊天页面
 
+## 部署
+
+- `../deploy/docker`：Docker 和部署框架
+
 ## Go 补充
 
 - `go/01_struct_and_slice.go`：结构体和切片
