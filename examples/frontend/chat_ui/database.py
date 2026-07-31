@@ -1,7 +1,36 @@
+import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).with_name("chat_ui.db")
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent
+
+# database.py 也主动读取 .env，是为了让数据库路径配置在本地运行和 Docker 运行时都生效。
+# 注意 main.py 虽然也会 load_dotenv，但 main.py 导入 database.py 时，database.py 的顶层代码会先执行。
+# 如果这里不读取 .env，CHAT_DB_PATH 这种数据库相关配置就可能太晚才被加载。
+load_dotenv(dotenv_path=BASE_DIR / ".env")
+
+
+def get_database_path() -> Path:
+    # 默认仍然使用模块目录下的 chat_ui.db，保持前端模块原来的本地学习体验。
+    # Docker 部署时会通过 CHAT_DB_PATH=/app/data/chat_ui.db 把数据库放到数据卷里。
+    # 这样容器删除再重建时，只要数据卷还在，聊天历史就不会丢。
+    configured_path = os.getenv("CHAT_DB_PATH")
+    if not configured_path:
+        return BASE_DIR / "chat_ui.db"
+
+    path = Path(configured_path)
+    if not path.is_absolute():
+        # 如果 .env 写的是相对路径，就按当前模块目录解释。
+        # 这比按启动命令所在目录解释更稳定，初学者不容易因为 cd 到不同目录而找不到数据库。
+        path = BASE_DIR / path
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+DB_PATH = get_database_path()
 
 
 def get_connection() -> sqlite3.Connection:
