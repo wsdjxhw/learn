@@ -63,6 +63,7 @@ POST /api/sessions
 GET  /api/sessions/{session_id}/messages
 POST /api/sessions/{session_id}/messages
 GET  /api/tasks/{task_id}
+GET  /api/tasks/{task_id}/events
 ```
 
 所以本模块用一个小型 FastAPI 服务同时提供：
@@ -224,33 +225,62 @@ snippet...
 
 然后放进 system prompt 或 user content 里。
 
-## 轮询任务
+## SSE 任务事件
 
 前端拿到 `task_id` 后，调用：
 
 ```javascript
-pollTask(payload.task.id)
+subscribeTaskEvents(payload.task.id)
 ```
 
-`pollTask()` 每隔 600 毫秒请求：
+它会创建浏览器原生的 `EventSource`：
+
+```javascript
+const source = new EventSource(`/api/tasks/${taskId}/events`);
+```
+
+这表示：
+
+```text
+前端建立一条持续连接
+后端通过这条连接持续发送任务状态事件
+```
+
+后端接口是：
+
+```text
+GET /api/tasks/{task_id}/events
+```
+
+后端会发送：
+
+```text
+event: status
+event: sources
+event: done
+event: task_error
+```
+
+这样前端不用自己每隔 600 毫秒请求一次任务接口。
+
+## 保留普通任务查询
+
+本模块仍然保留：
 
 ```text
 GET /api/tasks/{task_id}
 ```
 
-直到任务变成：
+它适合在 `/docs` 里调试，也适合做“点击刷新一次”的场景。
+
+两种方式的区别：
 
 ```text
-succeeded
+普通查询：前端主动问一次
+SSE：前端连上后，后端主动推状态
 ```
 
-或者：
-
-```text
-failed
-```
-
-这就是最常见的任务状态轮询。
+SSE 更适合任务状态变化、模型流式输出、进度条更新这类场景。
 
 ## sources 展示
 
@@ -302,7 +332,7 @@ escapeHtml(value)
 - 消息历史展示和短期记忆有什么区别。
 - 后端为什么要限制带入 provider 的历史消息数量。
 - 发送消息为什么先返回 `task_id`。
-- 前端如何通过轮询观察任务状态。
+- 前端如何通过 SSE 接收任务状态。
 - assistant 消息为什么要任务完成后再刷新。
 - sources 如何从后端返回并展示到页面。
 - 为什么前端不能直接信任用户输入。

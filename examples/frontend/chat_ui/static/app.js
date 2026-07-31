@@ -1,7 +1,7 @@
 const state = {
   sessions: [],
   activeSessionId: null,
-  pollingTimer: null,
+  taskEventSource: null,
 };
 
 const sessionList = document.getElementById("session-list");
@@ -179,7 +179,7 @@ async function sendMessage(event) {
   });
 
   await refreshMessages();
-  pollTask(payload.task.id);
+  subscribeTaskEvents(payload.task.id);
 }
 
 async function refreshMessages() {
@@ -191,30 +191,48 @@ async function refreshMessages() {
   await loadSessions();
 }
 
-function pollTask(taskId) {
-  // 轮询是前端处理后台任务的常见方式：
-  // 每隔一段时间查询任务，直到 succeeded 或 failed。
-  if (state.pollingTimer) {
-    clearInterval(state.pollingTimer);
+function closeTaskEventSource() {
+  // EventSource 是一条持续连接。
+  // 新任务开始前，要先关闭上一条连接，避免多个任务同时往页面写状态。
+  if (state.taskEventSource) {
+    state.taskEventSource.close();
+    state.taskEventSource = null;
   }
+}
 
-  state.pollingTimer = setInterval(async () => {
-    const task = await api(`/api/tasks/${taskId}`);
-    setTaskStatus(task.status, task.status);
+function subscribeTaskEvents(taskId) {
+  // SSE 版本：
+  // 前端只建立一次连接，后端通过 status / sources / done 事件主动推送任务变化。
+  closeTaskEventSource();
 
-    if (task.status === "succeeded") {
-      clearInterval(state.pollingTimer);
-      state.pollingTimer = null;
-      renderSources(task.sources);
-      await refreshMessages();
-    }
+  const source = new EventSource(`/api/tasks/${taskId}/events`);
+  state.taskEventSource = source;
 
-    if (task.status === "failed") {
-      clearInterval(state.pollingTimer);
-      state.pollingTimer = null;
-      setTaskStatus(task.error_message || "任务失败", "failed");
-    }
-  }, 600);
+  source.addEventListener("status", (event) => {
+    const payload = JSON.parse(event.data);
+    setTaskStatus(payload.status, payload.status);
+  });
+
+  source.addEventListener("sources", (event) => {
+    const payload = JSON.parse(event.data);
+    renderSources(payload.items);
+  });
+
+  source.addEventListener("task_error", (event) => {
+    const payload = JSON.parse(event.data);
+    setTaskStatus(payload.message, "failed");
+  });
+
+  source.addEventListener("done", async () => {
+    closeTaskEventSource();
+    await refreshMessages();
+  });
+
+  source.addEventListener("error", () => {
+    // 这个 error 是 EventSource 连接错误，不一定代表后端任务失败。
+    setTaskStatus("任务事件连接中断", "failed");
+    closeTaskEventSource();
+  });
 }
 
 function escapeHtml(value) {

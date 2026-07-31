@@ -13,7 +13,7 @@ JavaScript 负责调用后端接口和更新页面
 然后用这三件事看懂完整链路：
 
 ```text
-会话列表 -> 消息历史 -> 发送消息 -> 创建后台任务 -> 轮询任务状态 -> 展示 assistant 回复和 sources
+会话列表 -> 消息历史 -> 发送消息 -> 创建后台任务 -> SSE 接收任务状态 -> 展示 assistant 回复和 sources
 ```
 
 ## 先读
@@ -92,7 +92,7 @@ python -m uvicorn main:app --reload --port 9000
 - 页面打开后如何请求会话列表。
 - 点击会话后如何请求消息历史。
 - 点击发送后如何 `POST` 用户消息。
-- 后端返回 `task_id` 后，前端如何轮询任务状态。
+- 后端返回 `task_id` 后，前端如何用 SSE 接收任务状态。
 - 任务成功后如何刷新 assistant 消息。
 - assistant 回复前如何读取最近几条历史消息作为短期记忆。
 - 后端返回 sources 后，前端如何展示来源。
@@ -115,7 +115,8 @@ python -m uvicorn main:app --reload --port 9000
 4. `GET /api/sessions/{session_id}/messages`
 5. `POST /api/sessions/{session_id}/messages`
 6. `GET /api/tasks/{task_id}`
-7. 打开 `/` 观察页面如何轮询任务状态。
+7. `GET /api/tasks/{task_id}/events`
+8. 打开 `/` 观察页面如何接收 SSE 任务状态。
 
 ## `POST /api/sessions/{session_id}/messages` 示例
 
@@ -131,7 +132,8 @@ python -m uvicorn main:app --reload --port 9000
 
 - `user_message`：刚保存的用户消息。
 - `task`：后台任务，初始状态通常是 `pending`。
-- `task_url`：前端应该轮询的任务地址。
+- `task_url`：普通查询任务状态的地址。
+- `task_events_url`：前端用 SSE 订阅任务状态的地址。
 
 ## 任务状态
 
@@ -154,6 +156,36 @@ failed
 ```
 
 这个入口用于练习前端如何展示失败状态。
+
+## SSE 任务事件
+
+前端现在不再用 `setInterval()` 轮询任务，而是连接：
+
+```text
+GET /api/tasks/{task_id}/events
+```
+
+后端会发送这些事件：
+
+```text
+event: status
+data: {"task_id": 1, "status": "running", "error_message": null}
+
+event: sources
+data: {"items": [...]}
+
+event: done
+data: {"task_id": 1, "status": "succeeded", "ok": true}
+```
+
+如果任务失败，会发送：
+
+```text
+event: task_error
+data: {"task_id": 1, "message": "..."}
+```
+
+普通 `GET /api/tasks/{task_id}` 仍然保留，方便你在 `/docs` 里直接查看任务完整状态。
 
 ## 短期记忆
 
@@ -179,7 +211,7 @@ failed
 - 默认 mock provider 生成 assistant 回复。
 - 配置真实 `DEEPSEEK_API_KEY` 后，可以切换成 DeepSeek provider。
 - 简单关键词检索生成 sources。
-- 轮询任务状态，不做 WebSocket 或 SSE。
+- 使用 SSE 接收任务状态，不做 WebSocket。
 
 真实项目后续可以替换成：
 
@@ -197,7 +229,7 @@ failed
 4. 新建另一个会话再发送消息，确认它不会记住上一个会话的内容。
 5. 发送包含 `FAIL_TASK` 的消息，观察任务失败后页面和接口分别返回什么。
 6. 修改会话标题，刷新页面，确认标题仍然保存。
-7. 阅读 `app.js`，画出“发送消息 -> 返回 task_id -> 轮询任务 -> 刷新消息”的完整链路。
-8. 设计一个扩展：把任务轮询改成 SSE。要求先说明轮询和 SSE 各自的优缺点。
+7. 阅读 `app.js`，画出“发送消息 -> 返回 task_id -> 建立 SSE 连接 -> 接收 status/sources/done -> 刷新消息”的完整链路。
+8. 对比普通 `GET /api/tasks/{task_id}` 和 SSE `/api/tasks/{task_id}/events`，说明前端主动查询和后端主动推送的区别。
 
 这些练习的目标是理解前端如何消费后端能力，而不是只做页面样式。
