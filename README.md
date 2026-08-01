@@ -35,10 +35,10 @@
 14. 认证、限流和日志
 15. 前端聊天页面
 16. Docker 和部署框架
+17. Go AI 网关框架
 
 当前还没有正式展开的模块：
 
-- Go 后端补充
 - Agent 工具调用和 Agent Loop
 
 ## 从哪里开始
@@ -337,6 +337,24 @@
 - 理解环境变量和 `.env`
 - 理解数据卷保存 SQLite / PostgreSQL 数据
 - 理解健康检查和生产启动命令
+
+### 17. Go AI 网关
+
+代码：
+
+[examples/go/03_ai_gateway](examples/go/03_ai_gateway)
+
+讲解：
+
+[examples/go/03_ai_gateway/GO_AI_GATEWAY_EXPLAINED.md](examples/go/03_ai_gateway/GO_AI_GATEWAY_EXPLAINED.md)
+
+学习目标：
+
+- 理解 Go 在 AI 应用里的网关角色
+- 理解 Go HTTP 服务和请求转发
+- 理解 mock 模式和 Python 后端切换
+- 理解 goroutine 并发批量调用
+- 理解 Go 和 Python 的后端分工
 
 ## FastAPI 示例怎么启动
 

@@ -27,7 +27,7 @@
 5. 认证、限流和日志
 6. 前端聊天页面
 7. Docker 和部署：`deploy/docker`
-8. Go AI 网关
+8. Go AI 网关：`examples/go/03_ai_gateway`
 
 ## 学习原则
 

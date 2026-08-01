@@ -145,6 +145,8 @@ for index, question := range questions {
 
 `question` 是当前元素。
 
+range相当于in
+
 如果不需要下标，可以写：
 
 ```go

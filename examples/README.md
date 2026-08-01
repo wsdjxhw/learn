@@ -32,7 +32,12 @@
 
 ## Go 补充
 
+- `go/README.md`：Go 补充路线入口
+- `go/GO_MINIMAL_BASICS.md`：Go 最小基础扫盲
 - `go/01_struct_and_slice.go`：结构体和切片
+- `go/01_STRUCT_AND_SLICE_EXPLAINED.md`：结构体和切片代码讲解
 - `go/02_http_server.go`：Go 原生 HTTP 服务
+- `go/02_HTTP_SERVER_EXPLAINED.md`：Go HTTP 服务代码讲解
+- `go/03_ai_gateway`：Go AI 网关
 
-Go 当前不是主线，后续会作为 AI 网关和后端服务补充。
+Go 当前不是 Python AI 主线的替代品，而是作为 AI 网关和后端服务能力补充。

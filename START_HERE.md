@@ -70,6 +70,7 @@
 10. [认证、限流和日志](examples/ai/10_auth_rate_limit_logging/README.md)
 11. [前端聊天页面](examples/frontend/chat_ui/README.md)
 12. [Docker 和部署](deploy/docker/README.md)
+13. [Go AI 网关](examples/go/03_ai_gateway/README.md)
 
 ## 每个模块怎么学
 
@@ -88,4 +89,4 @@
 
 [LEARNING_PLAN.md](LEARNING_PLAN.md)
 
-说明：当前主线先学习 AI 应用后端地基。Agent 工具调用、Agent Loop、Agent 记忆等内容会放在地基路线后面继续展开。
+说明：当前主线先学习 AI 应用后端地基，Go 作为后端服务能力补充。Agent 工具调用、Agent Loop、Agent 记忆等内容会放在地基路线后面继续展开。

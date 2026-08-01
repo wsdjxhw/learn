@@ -11,6 +11,7 @@ type UserQuestion struct {
 	Text     string
 	Tags     []string
 	Urgent   bool
+	Source   string
 }
 
 // QuestionSummary 是整理后的问题摘要。
@@ -28,10 +29,13 @@ func buildTitle(question UserQuestion) string {
 	// 它来自 main() 里的 for 循环，每次循环会拿到一个 UserQuestion。
 	// 类比 Java：这里像调用 buildTitle(UserQuestion question)。
 	if question.UserName == "" {
-		return "匿名用户的问题：" + question.Text
+		return "匿名用户的问题：" + question.Text + "来源" + question.Source
+	}
+	if question.Text == "" {
+		return "空问题不能发送给AI"
 	}
 
-	return question.UserName + " 的问题：" + question.Text
+	return question.UserName + " 的问题：" + question.Text + "来源" + question.Source
 }
 
 func summarizeQuestion(question UserQuestion) QuestionSummary {
@@ -62,6 +66,14 @@ func main() {
 			UserName: "",
 			Text:     "AI 网关为什么要做统一入口？",
 			Tags:     []string{"gateway", "ai"},
+			Source:   "web",
+			Urgent:   true,
+		},
+		{
+			ID:       3,
+			UserName: "小红",
+			Text:     "Go 的 slice 和 Java 的 ArrayList 有什么区别？",
+			Tags:     []string{},
 			Urgent:   true,
 		},
 	}

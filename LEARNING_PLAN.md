@@ -285,7 +285,7 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 目标：理解 Go 在 AI 应用里的后端角色。
 
-要补的内容：
+已覆盖内容：
 
 - Go HTTP 服务
 - 请求转发
@@ -299,7 +299,7 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 - `examples/go/01_struct_and_slice.go`
 - `examples/go/02_http_server.go`
 
-未来可扩展模块：
+对应模块：
 
 - `examples/go/03_ai_gateway`
 
@@ -459,14 +459,14 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/frontend/chat_ui`，下一步应该进入：
+如果你已经完成 `deploy/docker`，下一步应该进入：
 
 ```text
-Docker 和部署
+Go 后端补充
 ```
 
 入口：
 
-- `deploy/docker`
+- `examples/go/03_ai_gateway`
 
-原因是你已经把后端接口变成了可使用页面。下一步要学习如何把服务打包成可部署形态，包括 Dockerfile、docker compose、环境变量、PostgreSQL 容器、健康检查和生产启动命令。
+原因是你已经了解了服务如何部署。下一步要理解 Go 在 AI 应用后端里的常见位置：作为统一入口、请求转发层、简单网关和并发任务调度层。这个模块会把前面 Python AI 服务当成后端能力，让 Go 负责对外提供网关接口。
