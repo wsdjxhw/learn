@@ -7,9 +7,10 @@ Go 这一块不替代 Python AI 主线。
 推荐顺序：
 
 ```text
-01_struct_and_slice.go
--> 02_http_server.go
+01_struct_and_slice
+-> 02_http_server
 -> 03_ai_gateway
+-> 04_gin_gateway
 ```
 
 ## 先读
@@ -26,7 +27,7 @@ Go 学习规划：
 
 代码：
 
-[01_struct_and_slice.go](01_struct_and_slice.go)
+[01_struct_and_slice](01_struct_and_slice)
 
 讲解：
 
@@ -36,7 +37,8 @@ Go 学习规划：
 
 ```powershell
 cd C:\Users\wsdjx\Desktop\learn\examples\go
-go run 01_struct_and_slice.go
+cd 01_struct_and_slice
+go run .
 ```
 
 学习目标：
@@ -53,7 +55,7 @@ go run 01_struct_and_slice.go
 
 代码：
 
-[02_http_server.go](02_http_server.go)
+[02_http_server](02_http_server)
 
 讲解：
 
@@ -63,7 +65,8 @@ go run 01_struct_and_slice.go
 
 ```powershell
 cd C:\Users\wsdjx\Desktop\learn\examples\go
-go run 02_http_server.go
+cd 02_http_server
+go run .
 ```
 
 测试顺序：
@@ -105,16 +108,32 @@ Invoke-RestMethod `
 - 理解 HTTP 请求转发
 - 理解 goroutine 并发批量调用
 
+## 4. Gin 网关基础
+
+模块：
+
+[04_gin_gateway](04_gin_gateway)
+
+学习目标：
+
+- 理解 Gin 是什么
+- 理解 `gin.Default()`
+- 理解 `gin.Context`
+- 理解 `ShouldBindJSON`
+- 理解路由分组和 middleware
+- 对比 Gin 和标准库 `net/http`
+
 ## 当前边界
 
-这条 Go 路线先不系统展开完整 Go 语言，也不立刻引入 Gin。
+这条 Go 路线先不系统展开完整 Go 语言。
 
 顺序应该是：
 
 ```text
 先看懂标准库 HTTP
 -> 再看懂网关转发
--> 最后再考虑 Gin、微服务、服务发现、熔断、追踪
+-> 再用 Gin 重写常见接口写法
+-> 最后再考虑微服务、服务发现、熔断、追踪
 ```
 
 这样不会影响 Python AI 主线，也不会让初学者一开始就被框架概念淹没。

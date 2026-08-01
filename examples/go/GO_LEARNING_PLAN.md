@@ -14,7 +14,7 @@ Go 放在这条主线之后，作为后端服务能力补充。
 
 对应：
 
-- [01_struct_and_slice.go](01_struct_and_slice.go)
+- [01_struct_and_slice](01_struct_and_slice)
 - [01_STRUCT_AND_SLICE_EXPLAINED.md](01_STRUCT_AND_SLICE_EXPLAINED.md)
 
 目标：
@@ -36,7 +36,7 @@ Go 放在这条主线之后，作为后端服务能力补充。
 
 对应：
 
-- [02_http_server.go](02_http_server.go)
+- [02_http_server](02_http_server)
 - [02_HTTP_SERVER_EXPLAINED.md](02_HTTP_SERVER_EXPLAINED.md)
 
 目标：
@@ -67,15 +67,13 @@ Go 放在这条主线之后，作为后端服务能力补充。
 
 ## 阶段 G4：Gin 框架
 
-未来可以新增：
+对应：
 
-```text
-examples/go/04_gin_gateway
-```
+- [04_gin_gateway](04_gin_gateway)
 
 目标：
 
-- 用 Gin 重写 `02_http_server.go`。
+- 用 Gin 重写标准库 HTTP 示例里的常见接口写法。
 - 理解 `gin.Context`。
 - 理解 `c.ShouldBindJSON()`。
 - 理解 `c.JSON()`。
