@@ -36,10 +36,20 @@
 15. 前端聊天页面
 16. Docker 和部署框架
 17. Go AI 网关框架
+18. 什么是 Agent
+19. Agent 工具调用
 
 当前还没有正式展开的模块：
 
-- Agent 工具调用和 Agent Loop
+- Agent 正式路线的后续工程模块，例如 Agent 循环、提示词工程、上下文工程、记忆工程、RAG 智能体、评测、安全和完整项目。
+
+完整项目总路线：
+
+[LEARNING_PLAN.md](LEARNING_PLAN.md)
+
+Agent 专项详细路线：
+
+[examples/agent/AGENT_LEARNING_PLAN.md](examples/agent/AGENT_LEARNING_PLAN.md)
 
 ## 从哪里开始
 
@@ -355,6 +365,72 @@
 - 理解 mock 模式和 Python 后端切换
 - 理解 goroutine 并发批量调用
 - 理解 Go 和 Python 的后端分工
+
+### 18. 什么是 Agent
+
+代码：
+
+[examples/agent/00_what_is_agent](examples/agent/00_what_is_agent)
+
+讲解：
+
+[examples/agent/00_what_is_agent/WHAT_IS_AGENT_EXPLAINED.md](examples/agent/00_what_is_agent/WHAT_IS_AGENT_EXPLAINED.md)
+
+学习目标：
+
+- 理解普通聊天和 Agent 的区别
+- 理解目标、思考、动作、观察、最终回答
+- 理解 Agent 不等于大模型
+- 理解 Agent 不等于工具调用
+- 先运行一个不依赖 API Key 的最小 Agent 示例
+
+### 19. Agent 工具调用
+
+代码：
+
+[examples/agent/01_tool_calling](examples/agent/01_tool_calling)
+
+讲解：
+
+[examples/agent/01_tool_calling/TOOL_CALLING_EXPLAINED.md](examples/agent/01_tool_calling/TOOL_CALLING_EXPLAINED.md)
+
+学习目标：
+
+- 理解工具 schema
+- 理解模型如何选择工具
+- 理解工具参数从哪里来
+- 理解工具结果如何进入最终回答
+- 理解工具白名单和参数校验
+- 理解 mock 工具调用和真实模型工具调用的区别
+
+## Agent 正式路线
+
+Agent 后续不是只学几个零散概念，而是按就业能力继续学习：
+
+```text
+Agent 循环
+-> 提示词工程
+-> 结构化输出
+-> 上下文工程
+-> 记忆工程
+-> 工具工程
+-> RAG 智能体
+-> 数据库智能体
+-> 后台任务智能体
+-> 流式智能体
+-> 运行基座工程
+-> 可观测性
+-> 评测
+-> 安全
+-> 测试
+-> 成本、延迟和并发
+-> 生产部署
+-> 完整项目
+```
+
+Agent 详细模块和验收标准看：
+
+[examples/agent/AGENT_LEARNING_PLAN.md](examples/agent/AGENT_LEARNING_PLAN.md)
 
 ## FastAPI 示例怎么启动
 

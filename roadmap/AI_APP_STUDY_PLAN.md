@@ -17,17 +17,28 @@
 7. SQLAlchemy 数据库版本
 8. RAG 文档问答
 9. 后台任务和状态查询
+10. PostgreSQL 实战连接
+11. Alembic 数据库迁移
+12. 向量化 RAG
+13. 流式输出
+14. 认证、限流和日志
+15. 前端聊天页面
+16. Docker 和部署：`deploy/docker`
+17. Go AI 网关：`examples/go/03_ai_gateway`
+18. 什么是 Agent：`examples/agent/00_what_is_agent`
+19. Agent 工具调用：`examples/agent/01_tool_calling`
 
 ## 后续模块
 
-1. PostgreSQL 实战连接
-2. Alembic 数据库迁移
-3. 向量化 RAG
-4. 流式输出
-5. 认证、限流和日志
-6. 前端聊天页面
-7. Docker 和部署：`deploy/docker`
-8. Go AI 网关：`examples/go/03_ai_gateway`
+Agent 后续路线不再用这个备份文件维护详细列表。
+
+完整项目总路线看：
+
+- `LEARNING_PLAN.md`
+
+Agent 专项详细路线看：
+
+- `examples/agent/AGENT_LEARNING_PLAN.md`
 
 ## 学习原则
 

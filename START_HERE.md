@@ -71,6 +71,8 @@
 11. [前端聊天页面](examples/frontend/chat_ui/README.md)
 12. [Docker 和部署](deploy/docker/README.md)
 13. [Go AI 网关](examples/go/03_ai_gateway/README.md)
+14. [什么是 Agent](examples/agent/00_what_is_agent/README.md)
+15. [Agent 工具调用](examples/agent/01_tool_calling/README.md)
 
 ## 每个模块怎么学
 
@@ -89,4 +91,4 @@
 
 [LEARNING_PLAN.md](LEARNING_PLAN.md)
 
-说明：当前主线先学习 AI 应用后端地基，Go 作为后端服务能力补充。Agent 工具调用、Agent Loop、Agent 记忆等内容会放在地基路线后面继续展开。
+说明：当前主线先学习 AI 应用后端地基，Go 作为后端服务能力补充。现在已经开始进入 Agent 正式路线，先学习什么是 Agent，再学习工具调用，后续会继续展开 Agent 循环、提示词工程、上下文工程、记忆工程、RAG 智能体、运行基座工程、评测、安全、部署和完整项目。

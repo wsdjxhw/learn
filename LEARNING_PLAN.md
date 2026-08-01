@@ -315,13 +315,59 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 - 流式输出：展示 Agent 执行过程。
 - 认证、日志、部署：让 Agent 服务可以被真实使用。
 
-完成 AI 应用后端地基后，再进入 Agent 进阶。
+完成 AI 应用后端地基后，再进入 Agent 正式学习路线。
 
-### 阶段 16：工具调用 Tool Calling
+Agent 路线不再只安排少量概念模块，而是按就业需要拆成完整工程主线：
+
+```text
+Agent 概念
+-> 工具调用
+-> Agent 循环
+-> 提示词工程
+-> 结构化输出
+-> 上下文工程
+-> 记忆工程
+-> 工具工程
+-> RAG 智能体
+-> 数据库智能体
+-> 后台任务智能体
+-> 流式智能体
+-> 运行基座工程
+-> 可观测性
+-> 评测
+-> 安全
+-> 测试
+-> 成本、延迟和并发
+-> 生产部署
+-> 完整项目
+```
+
+根目录 `LEARNING_PLAN.md` 负责整个项目的总路线。Agent 方向因为模块很多，详细路线单独维护在：
+
+- `examples/agent/AGENT_LEARNING_PLAN.md`
+
+### 阶段 16：什么是 Agent
+
+目标：先建立 Agent 的整体概念，知道它和普通聊天接口有什么区别。
+
+已覆盖内容：
+
+- Agent 是围绕目标做事的后端流程
+- 普通聊天和 Agent 的区别
+- 目标、思考、动作、观察、最终回答
+- Agent 不等于大模型
+- Agent 不等于工具调用
+- 不依赖真实模型的最小 Agent 示例
+
+对应模块：
+
+- `examples/agent/00_what_is_agent`
+
+### 阶段 17：工具调用
 
 目标：让模型不只是回答，而是能选择调用工具。
 
-要补的内容：
+已覆盖内容：
 
 - 什么是工具
 - 工具 schema
@@ -331,11 +377,11 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 - 工具调用失败如何处理
 - mock 工具和真实工具的区别
 
-对应未来模块：
+对应模块：
 
 - `examples/agent/01_tool_calling`
 
-### 阶段 17：最小 Agent Loop
+### 阶段 18：最小 Agent 循环
 
 目标：理解 Agent 的核心循环。
 
@@ -354,89 +400,224 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 - `examples/agent/02_minimal_agent_loop`
 
-### 阶段 18：带 RAG 工具的 Agent
+### 阶段 19：多工具编排
+
+目标：理解一个用户目标如何拆成多个工具动作，并记录每一步输入、输出、耗时和错误。
+
+对应未来模块：
+
+- `examples/agent/03_multi_tool_orchestration`
+
+### 阶段 20：提示词工程
+
+目标：把 prompt 当成可版本化、可测试、可回滚的工程资产。
+
+对应未来模块：
+
+- `examples/agent/04_prompt_engineering`
+
+### 阶段 21：结构化输出
+
+目标：让模型输出变成后端能稳定解析和校验的数据结构。
+
+对应未来模块：
+
+- `examples/agent/05_structured_output`
+
+### 阶段 22：上下文工程
+
+目标：管理每次请求给模型看的 system prompt、用户问题、历史消息、RAG 结果和工具 observation。
+
+对应未来模块：
+
+- `examples/agent/06_context_engineering`
+
+### 阶段 23：短期状态管理
+
+目标：保存 Agent 当前 run、steps 和中间状态，支持查询和恢复。
+
+对应未来模块：
+
+- `examples/agent/07_short_term_state`
+
+### 阶段 24：Agent 记忆基础
+
+目标：区分聊天历史和长期记忆，学习记忆写入、检索和复用。
+
+对应未来模块：
+
+- `examples/agent/08_memory_basics`
+
+### 阶段 25：记忆治理
+
+目标：学习记忆删除、过期、更新和敏感信息拒绝写入。
+
+对应未来模块：
+
+- `examples/agent/09_memory_governance`
+
+### 阶段 26：工具设计和权限
+
+目标：学习工具注册表、工具权限、读写工具边界和用户级授权。
+
+对应未来模块：
+
+- `examples/agent/10_tool_permissions`
+
+### 阶段 27：危险操作和人工确认
+
+目标：学习删除、付款、发邮件、写数据库前的人工确认流程。
+
+对应未来模块：
+
+- `examples/agent/11_human_confirmation`
+
+### 阶段 28：工具失败和恢复策略
+
+目标：学习工具超时、重试、降级和失败解释。
+
+对应未来模块：
+
+- `examples/agent/12_tool_failure_recovery`
+
+### 阶段 29：RAG 工具智能体
 
 目标：把前面学过的 RAG 变成 Agent 可以主动调用的工具。
 
-要补的内容：
+对应未来模块：
 
-- `search_documents` 工具
-- Agent 何时应该检索资料
-- sources 如何进入最终回答
-- 检索不到资料时如何追问或说明不足
-- RAG 工具和普通聊天的边界
+- `examples/agent/13_rag_tool_agent`
+
+### 阶段 30：生产级 RAG 工程
+
+目标：学习真实文档处理、metadata、权限隔离、rerank 和 RAG 评测前置数据。
 
 对应未来模块：
 
-- `examples/agent/03_rag_tool_agent`
+- `examples/agent/14_production_rag`
 
-### 阶段 19：带数据库操作的 Agent
+### 阶段 31：数据库工具智能体
 
-目标：让 Agent 能读取和修改结构化数据。
-
-要补的内容：
-
-- 查询工具
-- 写入工具
-- 参数校验
-- 用户确认
-- 防止危险写操作
-- 操作日志
+目标：让 Agent 查询和修改结构化数据，并记录所有操作。
 
 对应未来模块：
 
-- `examples/agent/04_database_tool_agent`
+- `examples/agent/15_database_tool_agent`
 
-### 阶段 20：带后台任务的 Agent
+### 阶段 32：后台任务智能体
 
-目标：让 Agent 能发起耗时任务，并查询任务进度。
-
-要补的内容：
-
-- 创建任务工具
-- 查询任务状态工具
-- `pending` / `running` / `succeeded` / `failed`
-- Agent 如何根据状态决定下一步
-- 任务失败后的恢复策略
+目标：让 Agent 发起耗时任务并查询进度。
 
 对应未来模块：
 
-- `examples/agent/05_background_task_agent`
+- `examples/agent/16_background_task_agent`
 
-### 阶段 21：Agent 记忆
+### 阶段 33：流式智能体输出
 
-目标：理解 Agent 如何保存和复用长期信息。
-
-要补的内容：
-
-- 短期上下文和长期记忆的区别
-- 记忆写入策略
-- 记忆检索
-- 用户偏好保存
-- 过期和删除
-- 隐私边界
+目标：把 Agent 执行过程实时展示给前端。
 
 对应未来模块：
 
-- `examples/agent/06_agent_memory`
+- `examples/agent/17_streaming_agent_events`
 
-### 阶段 22：Agent 可观测性和安全
+### 阶段 34：Agent 前端工作台
 
-目标：让 Agent 的每一步可追踪、可调试、可限制。
-
-要补的内容：
-
-- tool call 日志
-- 中间步骤 trace
-- 错误记录
-- 成本记录
-- 工具权限
-- 人工确认
-- 最大执行时间
+目标：做一个能查看会话、任务、工具调用和 sources 的工作台。
 
 对应未来模块：
 
-- `examples/agent/07_agent_observability_safety`
+- `examples/agent/18_agent_workspace_ui`
+
+### 阶段 35：Agent 运行基座工程
+
+目标：搭建一个可批量运行、可复现、可回放、可接入评测的 Agent 运行基座。这个能力也常被叫做 harness。
+
+要补的内容：
+
+- 测试样例集
+- 固定输入和期望行为
+- mock 模型
+- mock 工具
+- 批量运行 Agent
+- 保存每次运行的输入、输出、steps 和工具结果
+- 支持失败样例回放
+- 为后续评测和测试提供统一入口
+
+对应未来模块：
+
+- `examples/agent/19_agent_harness`
+
+### 阶段 36：Agent Trace 和日志
+
+目标：让 Agent 每一步可追踪、可调试、可复盘。
+
+对应未来模块：
+
+- `examples/agent/20_agent_observability`
+
+### 阶段 37：Agent 评测
+
+目标：学习如何证明 Agent 改动真的变好。
+
+对应未来模块：
+
+- `examples/agent/21_agent_evals`
+
+### 阶段 38：Agent 安全
+
+目标：防 prompt injection、敏感信息泄露、越权工具调用和危险写操作。
+
+对应未来模块：
+
+- `examples/agent/22_agent_safety`
+
+### 阶段 39：Agent 测试
+
+目标：用单元测试、接口测试、工具 mock、模型 mock 和测试数据库保护 Agent 项目。
+
+对应未来模块：
+
+- `examples/agent/23_agent_testing`
+
+### 阶段 40：成本、延迟和并发
+
+目标：控制 token 成本、响应延迟和并发风险。
+
+对应未来模块：
+
+- `examples/agent/24_cost_latency_concurrency`
+
+### 阶段 41：Agent 生产部署
+
+目标：把 Agent 服务按生产方式部署。
+
+对应未来模块：
+
+- `deploy/agent_production`
+
+### 阶段 42：完整项目一：企业知识库 Agent
+
+目标：做一个可展示的 RAG 智能体作品。
+
+对应未来模块：
+
+- `projects/agent_knowledge_base`
+
+### 阶段 43：完整项目二：业务操作 Agent
+
+目标：做一个能查询、创建任务、修改结构化数据的业务 Agent。
+
+对应未来模块：
+
+- `projects/agent_business_assistant`
+
+### 阶段 44：简历和面试复盘
+
+目标：把学习成果整理成能面试的作品材料。
+
+对应未来模块：
+
+- `career/agent_engineer_portfolio`
 
 ## 练习设计原则
 
@@ -459,14 +640,14 @@ Go 仍然会学，但放在 Python AI 应用主线之后，作为后端服务能
 
 ## 当前推荐下一步
 
-如果你已经完成 `deploy/docker`，下一步应该进入：
+如果你已经完成 `examples/agent/00_what_is_agent`，下一步应该进入：
 
 ```text
-Go 后端补充
+工具调用
 ```
 
 入口：
 
-- `examples/go/03_ai_gateway`
+- `examples/agent/01_tool_calling`
 
-原因是你已经了解了服务如何部署。下一步要理解 Go 在 AI 应用后端里的常见位置：作为统一入口、请求转发层、简单网关和并发任务调度层。这个模块会把前面 Python AI 服务当成后端能力，让 Go 负责对外提供网关接口。
+原因是你已经先理解了 Agent 的整体结构：目标、思考、动作、观察和最终回答。下一步要学习 Agent 最常用的基础能力：让模型根据用户问题选择工具，并由后端安全地执行工具。
