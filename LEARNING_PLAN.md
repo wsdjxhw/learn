@@ -404,7 +404,17 @@ Agent 概念
 
 目标：理解一个用户目标如何拆成多个工具动作，并记录每一步输入、输出、耗时和错误。
 
-对应未来模块：
+已覆盖内容：
+
+- 教学版 planner
+- 多步骤执行计划
+- 工具依赖关系
+- 工具之间的数据传递
+- 每个工具的输入、输出、耗时和错误记录
+- 工具失败后的后续步骤跳过
+- `stop_on_error` 对比
+
+对应模块：
 
 - `examples/agent/03_multi_tool_orchestration`
 
@@ -640,14 +650,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/02_minimal_agent_loop`，下一步应该进入：
+如果你已经完成 `examples/agent/03_multi_tool_orchestration`，下一步应该进入：
 
 ```text
-多工具编排
+提示词工程
 ```
 
 入口：
 
-- `examples/agent/03_multi_tool_orchestration`
+- `examples/agent/04_prompt_engineering`
 
-原因是你已经理解了 Agent 的核心循环：模型决策、工具调用、observation、最终回答和最大步数保护。下一步要学习一个用户目标如何拆成多个工具动作，并记录每一步输入、输出、耗时和错误。
+原因是你已经理解了一个用户目标如何拆成多个工具动作，以及如何记录每一步输入、输出、耗时和错误。下一步要学习把 prompt 当成可版本化、可测试、可回滚的工程资产。
