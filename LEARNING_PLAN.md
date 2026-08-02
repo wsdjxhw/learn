@@ -422,7 +422,17 @@ Agent 概念
 
 目标：把 prompt 当成可版本化、可测试、可回滚的工程资产。
 
-对应未来模块：
+已覆盖内容：
+
+- system prompt 的职责
+- prompt 独立文件管理
+- prompt 版本列表和详情查看
+- `.env` 中的 `PROMPT_VERSION`
+- mock model 对比不同 prompt 行为
+- 同一输入对比多个 prompt 版本
+- prompt 改动对工具选择的影响
+
+对应模块：
 
 - `examples/agent/04_prompt_engineering`
 
@@ -650,14 +660,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/03_multi_tool_orchestration`，下一步应该进入：
+如果你已经完成 `examples/agent/04_prompt_engineering`，下一步应该进入：
 
 ```text
-提示词工程
+结构化输出
 ```
 
 入口：
 
-- `examples/agent/04_prompt_engineering`
+- `examples/agent/05_structured_output`
 
-原因是你已经理解了一个用户目标如何拆成多个工具动作，以及如何记录每一步输入、输出、耗时和错误。下一步要学习把 prompt 当成可版本化、可测试、可回滚的工程资产。
+原因是你已经理解了 prompt 如何作为可版本化、可测试、可回滚的工程资产影响 Agent 行为。下一步要学习让模型输出变成后端能稳定解析和校验的数据结构。

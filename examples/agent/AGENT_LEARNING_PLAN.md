@@ -155,7 +155,7 @@ Agent 概念
 
 ### 04：提示词工程
 
-未来模块：
+对应模块：
 
 - `examples/agent/04_prompt_engineering`
 
