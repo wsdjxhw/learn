@@ -396,7 +396,7 @@ Agent 概念
 - 防止无限调用
 - 中间步骤记录
 
-对应未来模块：
+对应模块：
 
 - `examples/agent/02_minimal_agent_loop`
 
@@ -640,14 +640,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/00_what_is_agent`，下一步应该进入：
+如果你已经完成 `examples/agent/02_minimal_agent_loop`，下一步应该进入：
 
 ```text
-工具调用
+多工具编排
 ```
 
 入口：
 
-- `examples/agent/01_tool_calling`
+- `examples/agent/03_multi_tool_orchestration`
 
-原因是你已经先理解了 Agent 的整体结构：目标、思考、动作、观察和最终回答。下一步要学习 Agent 最常用的基础能力：让模型根据用户问题选择工具，并由后端安全地执行工具。
+原因是你已经理解了 Agent 的核心循环：模型决策、工具调用、observation、最终回答和最大步数保护。下一步要学习一个用户目标如何拆成多个工具动作，并记录每一步输入、输出、耗时和错误。

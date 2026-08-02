@@ -106,7 +106,7 @@ Agent 概念
 
 ### 02：最小 Agent 循环
 
-未来模块：
+对应模块：
 
 - `examples/agent/02_minimal_agent_loop`
 
