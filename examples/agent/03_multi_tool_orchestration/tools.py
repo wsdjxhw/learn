@@ -35,7 +35,7 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
     {
         "name": "check_vip_customer",
         "description": "检查客户是否为 VIP 客户。",
-        "input": {"customer_id": "客户 ID。"},
+        "input": {"customer_name": "客户姓名。"},
     },
     {
         "name": "draft_customer_reply",
@@ -107,15 +107,15 @@ def evaluate_order_risk(days_since_purchase: int, item_problem: str) -> dict[str
         "summary": f"订单优先级为 {priority}，风险标记：{risk_flags or ['none']}。",
     }
 
-def check_vip_customer(customer_id: str) -> dict[str, Any]:
+def check_vip_customer(customer_name: str) -> dict[str, Any]:
     # 这个工具不依赖制度检索结果，只依赖用户请求体。
     # 所以它和 search_refund_policy 属于同一个 prepare 阶段，理论上可以并行。
-    vip_customers = {"CUST123", "CUST456", "CUST789"}
-    is_vip = customer_id in vip_customers
+    vip_customers = {"小王", "小明", "小红"}
+    is_vip = customer_name in vip_customers
     return {
-        "customer_id": customer_id,
+        "customer_name": customer_name,
         "is_vip": is_vip,
-        "summary": f"客户 {customer_id} {'是' if is_vip else '不是'} VIP 客户。",
+        "summary": f"客户 {customer_name} {'是' if is_vip else '不是'} VIP 客户。",
     }
 
 def calculate_refund(
@@ -215,7 +215,7 @@ def run_tool(tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
                 policy_summary=str(arguments.get("policy_summary", "")),
             )
         elif tool_name == "check_vip_customer":
-            data = check_vip_customer(customer_id=str(arguments.get("customer_id", "")))
+            data = check_vip_customer(customer_name=str(arguments.get("customer_name", "")))
         else:
             raise ToolExecutionError(f"工具 {tool_name} 不在白名单中")
     except (KeyError, TypeError, ValueError) as exc:

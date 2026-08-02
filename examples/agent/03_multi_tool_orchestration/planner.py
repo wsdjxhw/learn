@@ -42,7 +42,7 @@ def build_plan(case: dict[str, Any]) -> dict[str, Any]:
                 "step_id": "vip",
                 "tool_name": "check_vip_customer",
                 "arguments": {
-                    "customer_id": case["customer_id"],
+                    "customer_name": case["customer_name"],
                 },
                 "depends_on": [],
                 "parallel_group": "prepare",
