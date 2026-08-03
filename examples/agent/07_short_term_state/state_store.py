@@ -119,6 +119,7 @@ def to_run_response(run: AgentRun) -> RunResponse:
                 error=step.error,
                 started_at=step.started_at.isoformat(),
                 finished_at=step.finished_at.isoformat() if step.finished_at else None,
+                duration_ms=int((step.finished_at - step.started_at).total_seconds() * 1000) if step.finished_at else None,
             )
         )
 

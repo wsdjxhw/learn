@@ -51,6 +51,7 @@ class StepResponse(BaseModel):
     error: str | None
     started_at: str
     finished_at: str | None
+    duration_ms: int | None
 
 
 class RunResponse(BaseModel):

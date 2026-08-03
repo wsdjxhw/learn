@@ -7,7 +7,7 @@ from agent_runner import run_agent_background
 from database import get_db, init_db
 from schemas import RunCreateRequest, RunResumeRequest
 from settings import get_settings
-from state_store import create_run, get_run, list_runs, mark_run_status, to_run_response
+from state_store import add_step, create_run, get_run, list_runs, mark_run_status, to_run_response
 
 
 # main.py 是 Web API 层。
@@ -99,3 +99,40 @@ def resume_agent_run(
         "status": "pending",
         "query_url": f"/agent/runs/{run.run_id}",
     }
+
+@app.post("/agent/runs/{run_id}/cancel")
+def cancel_agent_run(
+    run_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, Any]:
+    # 练习二：只有 pending 或 running 的 run 可以取消。
+    # 取消不是把记录删掉，而是写入一条 step 说明是谁、什么时候取消的，
+    # 再把 run 标记为失败。这样现场仍然可查。
+    run = get_run(db, run_id)
+    if run is None:
+        raise HTTPException(status_code=404, detail="run_id 不存在。")
+    if run.status not in ("pending", "running"):
+        raise HTTPException(status_code=400, detail="只有 pending 或 running 的 run 可以取消。")
+
+    # add_step 会处理 JSON 序列化、commit、next_step_index 管理。
+    # advance_next_step=False 表示取消不推进进度索引，因为执行被中止了。
+    add_step(
+        db,
+        run,
+        step_type="error",
+        name="agent_cancelled",
+        input_data={"run_id": run_id},
+        output_data={},
+        status="failed",
+        error="用户取消了本次执行。",
+        advance_next_step=False,
+    )
+    mark_run_status(db, run, "failed", error="用户取消")
+
+    return {
+        "message": "Agent run 已取消。",
+        "run_id": run.run_id,
+        "status": run.status,
+        "query_url": f"/agent/runs/{run.run_id}",
+    }
+    
