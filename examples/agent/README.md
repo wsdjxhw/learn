@@ -16,10 +16,11 @@ Agent 模块建立在前面 AI 应用后端地基之上。
 4. [多工具编排](03_multi_tool_orchestration/README.md)
 5. [提示词工程](04_prompt_engineering/README.md)
 6. [结构化输出](05_structured_output/README.md)
+7. [上下文工程](06_context_engineering/README.md)
 
 ## 后续主线
 
-1. 上下文工程
+1. 短期状态管理
 2. 记忆工程
 3. 工具工程
 4. RAG 智能体

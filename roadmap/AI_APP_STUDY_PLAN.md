@@ -27,6 +27,11 @@
 17. Go AI 网关：`examples/go/03_ai_gateway`
 18. 什么是 Agent：`examples/agent/00_what_is_agent`
 19. Agent 工具调用：`examples/agent/01_tool_calling`
+20. 最小 Agent 循环：`examples/agent/02_minimal_agent_loop`
+21. 多工具编排：`examples/agent/03_multi_tool_orchestration`
+22. 提示词工程：`examples/agent/04_prompt_engineering`
+23. 结构化输出：`examples/agent/05_structured_output`
+24. 上下文工程：`examples/agent/06_context_engineering`
 
 ## 后续模块
 

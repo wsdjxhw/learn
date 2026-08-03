@@ -205,7 +205,7 @@ Agent 概念
 
 ### 06：上下文工程
 
-未来模块：
+对应模块：
 
 - `examples/agent/06_context_engineering`
 
@@ -214,6 +214,17 @@ Agent 概念
 - 理解模型每次请求到底应该看到什么。
 - 管理 system prompt、用户问题、历史消息、RAG 结果、工具 observation。
 - 控制上下文长度和优先级。
+
+已覆盖内容：
+
+- `build_context()` 教学版上下文构造。
+- system prompt、当前问题、历史消息、RAG source、工具 observation 分层。
+- 历史消息按预算裁剪。
+- RAG 资料按相关性过滤。
+- 工具 observation 注入上下文。
+- `/context/preview` 预览模型真实输入。
+- 对比低相关 RAG 干扰回答。
+- mock / DeepSeek 双模式。
 
 要做的代码：
 
