@@ -217,44 +217,33 @@ def build_context(request: ContextBuildRequest) -> ContextBuildResult:
         )
 
     # ---- 历史消息选择（练习一）----
-    # 关键槽位词：如果历史消息里包含这些信息，即使更早也保留，因为它们是退款判断的必需字段。
+    # 优先级规则：
+    # 1. 含关键槽位（订单金额/购买天数/破损）的消息优先级最高，忽略远近，只要预算够就保留。
+    # 2. 剩余预算再按"最近优先"保留不含关键槽位的消息。
     KEY_SLOT_KEYWORDS = ("订单金额", "购买天数", "破损")
-    # 最近 4 条消息优先保留。
     RECENT_PRIORITY_COUNT = 4
 
     recent_history = history[-request.max_history_messages :] if request.max_history_messages else []
     kept_history: list[ContextMessage] = []
 
-    def _history_keep_reason(message, is_recent: bool) -> str:
-        if is_recent:
-            return "最近历史消息，帮助模型理解对话承接。"
-        return "历史消息包含订单金额/购买天数/破损等关键槽位信息，即使更早也保留。"
+    def _history_keep_reason(has_key_slot: bool) -> str:
+        if has_key_slot:
+            return "历史消息包含订单金额/购买天数/破损等关键槽位信息，优先级最高，忽略远近保留。"
+        return "最近历史消息，帮助模型理解对话承接。"
 
-    # 第一轮：先按从近到远挑选（最近优先）。
-    # 第二轮：再从更早的历史里找包含关键槽位、且上一轮因预算或数量限制被漏掉的消息。
-    ordered_history = list(reversed(recent_history))
+    # 第一轮：先扫全部历史，保留所有包含关键槽位的消息（忽略远近）。
+    # 第二轮：再按最近优先补充不含关键槽位的消息。
+    key_slot_messages = [m for m in recent_history if any(k in m.content for k in KEY_SLOT_KEYWORDS)]
+    non_key_messages = [m for m in recent_history if not any(k in m.content for k in KEY_SLOT_KEYWORDS)]
+    # 不含关键槽位的部分，按从近到远排序。
+    ordered_non_key = list(reversed(non_key_messages))
 
-    for index, message in enumerate(ordered_history):
-        is_recent = index < RECENT_PRIORITY_COUNT
+    def _try_keep_history(message) -> bool:
         content = f"[历史消息]\n{message.content}"
         temp_messages = selected_messages + list(reversed(kept_history))
         used_tokens = sum(item.approx_tokens for item in temp_messages) + current_user_message.approx_tokens
         remaining_tokens = request.max_context_tokens - used_tokens
         approx_tokens = estimate_tokens(content)
-
-        # 练习一：最近 4 条直接按预算保留。
-        # 更早的消息只有包含关键槽位时才考虑保留。
-        has_key_slot = any(keyword in message.content for keyword in KEY_SLOT_KEYWORDS)
-        if not is_recent and not has_key_slot:
-            omitted_items.append(
-                OmittedContextItem(
-                    source_type="history",
-                    summary=_short(message.content),
-                    approx_tokens=approx_tokens,
-                    omit_reason="既不是最近消息，也不包含关键槽位信息，按价值丢弃。",
-                )
-            )
-            continue
 
         if approx_tokens <= remaining_tokens:
             kept_history.append(
@@ -263,20 +252,55 @@ def build_context(request: ContextBuildRequest) -> ContextBuildResult:
                     content=content,
                     source_type="history",
                     approx_tokens=approx_tokens,
-                    keep_reason=_history_keep_reason(message, is_recent),
+                    keep_reason=_history_keep_reason(
+                        any(k in message.content for k in KEY_SLOT_KEYWORDS)
+                    ),
                 )
             )
-        else:
+            return True
+        return False
+
+    # 第一轮：含关键槽位的消息，忽略远近，全部尝试保留。
+    for message in key_slot_messages:
+        if not _try_keep_history(message):
             omitted_items.append(
                 OmittedContextItem(
                     source_type="history",
                     summary=_short(message.content),
-                    approx_tokens=approx_tokens,
+                    approx_tokens=estimate_tokens(f"[历史消息]\n{message.content}"),
+                    omit_reason="包含关键槽位但预算不足，优先让位给 system/当前问题/工具 observation。",
+                )
+            )
+
+    # 第二轮：不含关键槽位的消息，最近 4 条优先，再补充更早的。
+    for index, message in enumerate(ordered_non_key):
+        if index >= RECENT_PRIORITY_COUNT:
+            omitted_items.append(
+                OmittedContextItem(
+                    source_type="history",
+                    summary=_short(message.content),
+                    approx_tokens=estimate_tokens(f"[历史消息]\n{message.content}"),
+                    omit_reason="不是最近消息，也不包含关键槽位信息，按价值丢弃。",
+                )
+            )
+            continue
+
+        if not _try_keep_history(message):
+            omitted_items.append(
+                OmittedContextItem(
+                    source_type="history",
+                    summary=_short(message.content),
+                    approx_tokens=estimate_tokens(f"[历史消息]\n{message.content}"),
                     omit_reason="历史消息优先级低于当前问题、工具 observation 和 RAG，预算不足时丢弃。",
                 )
             )
 
-    selected_messages.extend(reversed(kept_history))
+    # kept_history 内部是"先关键字、后最近"的顺序，这里按对话顺序反转排列。
+    # 关键字消息排在历史靠后位置会更贴近对话承接，这里统一按原时序排列。
+    kept_history.sort(key=lambda m: recent_history.index(
+        next(h for h in recent_history if h.content == m.content.replace("[历史消息]\n", ""))
+    ))
+    selected_messages.extend(kept_history)
     selected_messages.append(current_user_message)
 
     # ---- 练习四：统计保留/丢弃的数量，供前端工作台使用 ----
