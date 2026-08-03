@@ -440,7 +440,16 @@ Agent 概念
 
 目标：让模型输出变成后端能稳定解析和校验的数据结构。
 
-对应未来模块：
+已覆盖内容：
+
+- 固定 JSON 输出契约
+- JSON 解析和 Pydantic 校验分层
+- 缺字段、字段类型错误、非法枚举值处理
+- 输出不合法时重试一次
+- 重试仍失败时返回人工审核降级结构
+- mock / DeepSeek 双模式
+
+对应模块：
 
 - `examples/agent/05_structured_output`
 
@@ -660,14 +669,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/04_prompt_engineering`，下一步应该进入：
+如果你已经完成 `examples/agent/05_structured_output`，下一步应该进入：
 
 ```text
-结构化输出
+上下文工程
 ```
 
 入口：
 
-- `examples/agent/05_structured_output`
+- `examples/agent/06_context_engineering`
 
-原因是你已经理解了 prompt 如何作为可版本化、可测试、可回滚的工程资产影响 Agent 行为。下一步要学习让模型输出变成后端能稳定解析和校验的数据结构。
+原因是你已经理解了 prompt 如何影响 Agent 行为，也理解了模型输出必须变成后端可解析、可校验、可降级的数据结构。下一步要学习每次模型调用到底应该看到哪些上下文：system prompt、用户问题、历史消息、RAG 结果和工具 observation。
