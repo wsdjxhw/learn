@@ -73,6 +73,11 @@
 13. [Go AI 网关](examples/go/03_ai_gateway/README.md)
 14. [什么是 Agent](examples/agent/00_what_is_agent/README.md)
 15. [Agent 工具调用](examples/agent/01_tool_calling/README.md)
+16. [最小 Agent 循环](examples/agent/02_minimal_agent_loop/README.md)
+17. [多工具编排](examples/agent/03_multi_tool_orchestration/README.md)
+18. [提示词工程](examples/agent/04_prompt_engineering/README.md)
+19. [结构化输出](examples/agent/05_structured_output/README.md)
+20. [上下文工程](examples/agent/06_context_engineering/README.md)
 
 ## 每个模块怎么学
 

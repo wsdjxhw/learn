@@ -61,6 +61,7 @@ def _valid_payload(case: dict[str, Any]) -> dict[str, Any]:
         "missing_fields": [],
         "risk_flags": risk_flags,
         "confidence": 0.86,
+        "customer_sentiment": case.get("customer_sentiment", "neutral"),
         "action": action,
         "user_visible_answer": answer,
     }
@@ -91,6 +92,11 @@ def generate_mock_text(case: dict[str, Any], previous_error: str | None = None) 
     if scenario == "invalid_enum":
         # priority 只允许 low / medium / high，urgent 会被拒绝。
         payload["priority"] = "urgent"
+        return json.dumps(payload, ensure_ascii=False)
+
+    if scenario == "invalid_sentiment":
+        # customer_sentiment 只允许 angry / neutral / polite，very_angry 会被拒绝。
+        payload["customer_sentiment"] = "very_angry"
         return json.dumps(payload, ensure_ascii=False)
 
     if scenario == "broken_json":
