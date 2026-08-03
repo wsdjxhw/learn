@@ -242,7 +242,7 @@ Agent 概念
 
 ### 07：短期状态管理
 
-未来模块：
+对应模块：
 
 - `examples/agent/07_short_term_state`
 
@@ -250,6 +250,18 @@ Agent 概念
 
 - 区分一次请求状态和一次会话状态。
 - 理解 Agent 当前任务进度如何保存。
+- 理解短期状态、聊天历史和长期记忆的边界。
+
+已覆盖内容：
+
+- `agent_runs` 保存一次 Agent run。
+- `agent_steps` 保存每一步输入、输出和错误。
+- `run_id` 状态查询。
+- `pending/running/succeeded/failed` 状态流转。
+- FastAPI 后台任务逐步写入状态。
+- 失败后查看已执行步骤。
+- 失败 run 恢复执行。
+- mock / DeepSeek 双模式。
 
 要做的代码：
 
@@ -257,6 +269,7 @@ Agent 概念
 - 保存 steps。
 - 支持按 `run_id` 查询中间状态。
 - 支持失败后查看已执行步骤。
+- 支持失败后恢复执行。
 
 验收标准：
 

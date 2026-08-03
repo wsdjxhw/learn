@@ -476,7 +476,18 @@ Agent 概念
 
 目标：保存 Agent 当前 run、steps 和中间状态，支持查询和恢复。
 
-对应未来模块：
+已覆盖内容：
+
+- `agent_runs` 保存一次 Agent run。
+- `agent_steps` 保存每一步输入、输出和错误。
+- `run_id` 状态查询。
+- `pending/running/succeeded/failed` 状态流转。
+- FastAPI 后台任务逐步写入状态。
+- 失败后查看已执行步骤。
+- 失败 run 恢复执行。
+- mock / DeepSeek 双模式。
+
+对应模块：
 
 - `examples/agent/07_short_term_state`
 
@@ -680,14 +691,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/05_structured_output`，下一步应该进入：
+如果你已经完成 `examples/agent/07_short_term_state`，下一步应该进入：
 
 ```text
-上下文工程
+Agent 记忆基础
 ```
 
 入口：
 
-- `examples/agent/06_context_engineering`
+- `examples/agent/08_memory_basics`
 
-原因是你已经理解了 prompt 如何影响 Agent 行为，也理解了模型输出必须变成后端可解析、可校验、可降级的数据结构。下一步要学习每次模型调用到底应该看到哪些上下文：system prompt、用户问题、历史消息、RAG 结果和工具 observation。
+原因是你已经理解了 Agent 一次执行的短期状态：run、steps、中间结果、失败现场和恢复。下一步要学习长期记忆：哪些用户信息值得保存、如何结构化写入、如何检索复用，以及聊天历史、短期状态和长期记忆的边界。
