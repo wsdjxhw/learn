@@ -99,6 +99,12 @@ def generate_mock_text(case: dict[str, Any], previous_error: str | None = None) 
         payload["customer_sentiment"] = "very_angry"
         return json.dumps(payload, ensure_ascii=False)
 
+    if scenario == "invalid_action_args":
+        # 练习二：外层结构合法（ToolAction 字段齐全），但工具参数内层不合法。
+        # order_amount 传负数，CalculateRefundArguments 的 ge=0 会把它拒绝。
+        payload["action"]["arguments"]["order_amount"] = -240
+        return json.dumps(payload, ensure_ascii=False)
+
     if scenario == "broken_json":
         # 这类输出看起来像 JSON，但少了右花括号，json.loads 无法解析。
         return '{"decision_type": "tool_call", "category": "refund", "priority": "medium"'

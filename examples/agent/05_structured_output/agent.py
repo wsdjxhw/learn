@@ -31,6 +31,22 @@ def _fallback_decision(case: dict[str, Any], reason: str) -> dict[str, Any]:
     return fallback.model_dump()
 
 
+def _user_debug_message(parse_result: dict[str, Any]) -> str:
+    # 练习三：把失败原因转成适合前端展示的文案。
+    #
+    # 为什么不直接返回 parse_result["error"]？
+    # - error 可能是 Pydantic 的字段路径、完整异常对象或模型原始响应。
+    # - 这些对前端用户没有意义，还可能泄露内部字段名、prompt 或服务响应体。
+    # 这里用固定文案，让用户知道“发生了什么级别的问题”，但看不到内部细节。
+    if parse_result["stage"] == "model_call":
+        return "模型服务暂时不可用，请稍后再试。"
+    if parse_result["stage"] == "json_parse":
+        return "模型返回的内容无法被解析为 JSON，系统已尝试自动恢复。"
+    if parse_result["stage"] == "pydantic_validation":
+        return "模型返回的结构不符合约定，系统已尝试自动恢复。"
+    return "系统已自动完成处理。"
+
+
 def run_structured_agent(case: dict[str, Any]) -> dict[str, Any]:
     # 这是本模块的核心流程。
     #
@@ -67,6 +83,9 @@ def run_structured_agent(case: dict[str, Any]) -> dict[str, Any]:
                     "ok": False,
                     "failed_stage": "model_call",
                     "error": previous_error,
+                    "user_debug_message": _user_debug_message(
+                        {"stage": "model_call"}
+                    ),
                 }
             )
             break
@@ -79,6 +98,7 @@ def run_structured_agent(case: dict[str, Any]) -> dict[str, Any]:
                 "ok": parse_result["ok"],
                 "failed_stage": None if parse_result["ok"] else parse_result["stage"],
                 "error": parse_result["error"],
+                "user_debug_message": _user_debug_message(parse_result),
             }
         )
 

@@ -1,6 +1,6 @@
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 MockScenario = Literal[
@@ -9,6 +9,8 @@ MockScenario = Literal[
     "missing_field",
     "wrong_type",
     "invalid_enum",
+    "invalid_sentiment",
+    "invalid_action_args",
     "broken_json",
 ]
 
@@ -56,6 +58,27 @@ class StructuredCompareRequest(BaseModel):
     )
 
 
+class CalculateRefundArguments(BaseModel):
+    # 练习二：为 calculate_refund 工具的参数做二次校验。
+    #
+    # 外层 RefundDecision 只保证 action 是一个结构合法的 ToolAction，
+    # 但不保证 arguments 里的业务值合法。模型可能在 JSON 里给 order_amount 传负数、
+    # 给 days_since_purchase 传 -1，或者漏掉 item_problem。
+    # 这里用更严格的模型把这类“外层合法、内层不合法”的输出拦下来。
+    order_amount: float = Field(
+        ge=0,
+        description="订单金额，必须大于等于 0。",
+    )
+    days_since_purchase: int = Field(
+        ge=0,
+        description="购买后天数，必须大于等于 0。",
+    )
+    item_problem: str = Field(
+        min_length=1,
+        description="商品问题，不能为空。",
+    )
+
+
 class ToolAction(BaseModel):
     # 这个类描述“后端下一步应该做什么”。
     # 注意：模型只是在 JSON 里建议 action，真实项目仍然要由后端做工具白名单、权限和参数校验。
@@ -67,6 +90,16 @@ class ToolAction(BaseModel):
         description="工具参数。这里先用 dict 承载，后续工具工程模块会继续细化每个工具的参数 schema。",
     )
     reason: str = Field(description="为什么需要这个动作。")
+
+    @model_validator(mode="after")
+    def validate_arguments_for_tool(self) -> "ToolAction":
+        # 练习二：根据工具名做参数二次校验。
+        # 只有 calculate_refund 需要严格参数校验；其他工具暂不校验。
+        if self.tool_name == "calculate_refund":
+            # 校验失败时 Pydantic 会抛出 ValidationError，
+            # 这个错误会冒泡到 RefundDecision 的校验，最终在 parser 里被捕获。
+            CalculateRefundArguments.model_validate(self.arguments)
+        return self
 
 
 class RefundDecision(BaseModel):
@@ -99,6 +132,10 @@ class RefundDecision(BaseModel):
         ge=0,
         le=1,
         description="模型对结构化判断的置信度，必须在 0 到 1 之间。",
+    )
+    customer_sentiment: Literal["angry", "neutral", "polite"] | None = Field(
+        default="neutral",
+        description="客户情绪分析结果。neutral 表示模型无法判断。",
     )
     action: ToolAction | None = Field(
         default=None,

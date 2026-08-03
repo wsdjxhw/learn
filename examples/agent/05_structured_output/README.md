@@ -6,6 +6,24 @@
 
 本模块默认使用 mock 模式，不需要任何 API Key。mock 模型会稳定生成几类常见坏输出，方便你观察“看起来像 JSON”和“真的能被程序稳定使用”之间的区别。配置 `MODEL_MODE=deepseek` 后，也可以接真实模型。
 
+## 如果第一遍学得发懵
+
+先读：
+
+[START_HERE.md](START_HERE.md)
+
+第一遍不要急着理解所有文件。先抓住这一条主线：
+
+```text
+模型原始文本
+-> JSON 解析
+-> Pydantic 契约校验
+-> 失败时重试一次
+-> 仍失败时降级为人工审核
+```
+
+跑通 `valid_json`、`missing_field`、`broken_json + allow_retry=false` 这三个场景后，再回来看完整 README。
+
 ## 学习目标
 
 - 理解为什么生产项目不能只依赖自然语言回答。
@@ -26,6 +44,7 @@ examples/agent/05_structured_output
 ├── provider.py
 ├── parser.py
 ├── agent.py
+├── START_HERE.md
 ├── STRUCTURED_OUTPUT_BASICS.md
 ├── STRUCTURED_OUTPUT_EXPLAINED.md
 ├── README.md
@@ -39,6 +58,34 @@ examples/agent/05_structured_output
 - `provider.py`：模型调用层，默认 mock，也支持 DeepSeek。
 - `parser.py`：负责 JSON 解析和 Pydantic 校验。
 - `agent.py`：串起模型输出、解析、校验、重试和降级。
+- `START_HERE.md`：第一遍学习入口，用更少概念讲清主线。
+
+## 推荐学习顺序
+
+第一遍：
+
+```text
+START_HERE.md
+-> 启动服务
+-> 只测试 valid_json / missing_field / broken_json
+-> 看 schemas.py 里的 RefundDecision
+```
+
+第二遍：
+
+```text
+parser.py
+-> agent.py
+-> STRUCTURED_OUTPUT_EXPLAINED.md
+```
+
+第三遍：
+
+```text
+provider.py
+-> 真实模型模式
+-> 练习任务
+```
 
 ## 启动
 
