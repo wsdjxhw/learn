@@ -119,7 +119,7 @@ TOOL_PARAMETERS: dict[str, dict[str, Any]] = {
 TOOL_REGISTRY: dict[str, ToolDefinition] = {
     "get_user_plan": ToolDefinition(
         name="get_user_plan",
-        description="查看用户套餐。属于低风险读工具，适合回答用户套餐相关问题。",
+        description="查看用户套餐。属于中风险读工具，涉及资源归属判断，普通操作员只能查看自己的套餐。",
         tool_type="read",
         risk_level="medium",
         allowed_roles=("viewer", "operator", "admin"),

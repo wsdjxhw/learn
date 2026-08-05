@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 
 from models import ToolAuditLog
 from tool_registry import get_tool_definition
-from permissions import get_current_auth
 
 
 class ToolExecutionError(Exception):
@@ -33,19 +32,12 @@ def search_company_policy(keyword: str) -> dict[str, Any]:
         "退款": "订单支付后 24 小时内可以原路退款，超过 24 小时需要人工审核。",
         "薪酬": "员工薪酬根据岗位和经验计算，不能直接修改。",
     }
+    # 敏感关键词（薪酬）的权限由 permissions.check_tool_permission 统一判断，
+    # 工具本身不重复检查——两处判断一旦不一致就会产生绕过。
     matches = []
-    auth = get_current_auth()
-    role = auth.role
-    if role == "admin":
-        for policy_keyword, content in policies.items():
-            if keyword in policy_keyword or policy_keyword in keyword:
-                matches.append({"keyword": policy_keyword, "content": content, "source": f"policy:{policy_keyword}"})
-    else:
-        for policy_keyword, content in policies.items():
-            if keyword in policy_keyword or policy_keyword in keyword:
-                if keyword == "薪酬":
-                    raise ToolExecutionError("薪酬制度属于敏感信息，非管理员无法查询。")
-                matches.append({"keyword": policy_keyword, "content": content, "source": f"policy:{policy_keyword}"})
+    for policy_keyword, content in policies.items():
+        if keyword in policy_keyword or policy_keyword in keyword:
+            matches.append({"keyword": policy_keyword, "content": content, "source": f"policy:{policy_keyword}"})
 
     if not matches:
         raise ToolExecutionError(f"没有找到和 {keyword} 相关的制度。")

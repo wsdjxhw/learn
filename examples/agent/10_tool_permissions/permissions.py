@@ -47,10 +47,16 @@ def check_tool_permission(
     if not tool.enabled:
         return PermissionResult(allowed=False, reason=f"工具 {tool.name} 当前已停用。")
 
-    # 放在 permissions.py 的 check_tool_permission 里，角色检查之后：
-    if tool.name == "search_company_policy" and auth.role != "admin" and "薪酬" in str(arguments.get("keyword", "")):
+    # 参数级权限：同一个检索工具，敏感关键词只能 admin 查。
+    # 注意判断必须镜像工具的匹配逻辑（keyword in policy_keyword or policy_keyword in keyword）。
+    # 只判断 "薪酬" in keyword 会漏掉单字查询：查"薪"也能命中薪酬制度。
+    keyword = str(arguments.get("keyword", ""))
+    if (
+        tool.name == "search_company_policy"
+        and auth.role != "admin"
+        and ("薪酬" in keyword or keyword in "薪酬")
+    ):
         return PermissionResult(allowed=False, reason="薪酬制度属于敏感信息，非管理员无法查询。")
-                            
     if auth.role not in tool.allowed_roles:
         return PermissionResult(
             allowed=False,
