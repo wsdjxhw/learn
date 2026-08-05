@@ -537,7 +537,21 @@ Agent 概念
 
 目标：学习工具注册表、工具权限、读写工具边界和用户级授权。
 
-对应未来模块：
+已覆盖内容：
+
+- 工具注册表作为后端白名单
+- 工具分为 `read/write/admin`
+- 风险等级分为 `low/medium/high`
+- 教学 API Key 映射 `viewer/operator/admin`
+- 不同角色看到不同工具
+- 工具执行前做角色权限和资源级权限检查
+- 普通用户不能调用管理员工具
+- 越权、失败、成功都会写审计日志
+- `/tool/run` 手动验证工具权限
+- `/agent/chat` 展示 Agent 自动选工具和后端权限兜底
+- mock / DeepSeek 双模式
+
+对应模块：
 
 - `examples/agent/10_tool_permissions`
 
@@ -717,14 +731,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/09_memory_governance`，下一步应该进入：
+如果你已经完成 `examples/agent/10_tool_permissions`，下一步应该进入：
 
 ```text
-工具设计和权限
+危险操作和人工确认
 ```
 
 入口：
 
-- `examples/agent/10_tool_permissions`
+- `examples/agent/11_human_confirmation`
 
-原因是你已经理解了长期记忆从写入到治理的基本闭环。下一步要进入工具工程：Agent 可以调用哪些工具、工具如何注册、不同用户能不能调用同一个工具、读工具和写工具的风险边界是什么。
+原因是你已经理解了工具注册表、角色权限、资源级权限和审计日志。下一步要处理更接近真实业务的风险：即使用户有权限，删除、付款、发邮件、修改套餐这类危险写操作也不能直接执行，必须先进入人工确认流程。

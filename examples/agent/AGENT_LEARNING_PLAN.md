@@ -351,7 +351,7 @@ Agent 概念
 
 ### 10：工具设计和权限
 
-未来模块：
+对应模块：
 
 - `examples/agent/10_tool_permissions`
 
@@ -359,6 +359,19 @@ Agent 概念
 
 - 学习工具白名单、工具分组、用户权限。
 - 理解读工具和写工具的风险差异。
+
+已覆盖内容：
+
+- 工具注册表作为后端白名单。
+- 工具类型：`read/write/admin`。
+- 工具风险等级：`low/medium/high`。
+- 教学 API Key 映射 `viewer/operator/admin`。
+- `/tools` 按当前用户权限展示工具。
+- `/tool/run` 手动执行工具并做权限检查。
+- `/agent/chat` 在可见工具中选择工具，并在执行前再次校验权限。
+- 资源级权限：普通操作员不能操作别人的 `target_user_id`。
+- 工具成功、失败、越权都会写入 `tool_audit_logs`。
+- mock / DeepSeek 双模式。
 
 要做的代码：
 
