@@ -516,7 +516,20 @@ Agent 概念
 
 目标：学习记忆删除、过期、更新和敏感信息拒绝写入。
 
-对应未来模块：
+已覆盖内容：
+
+- 用户查看自己的长期记忆
+- 手动更新错误或过时记忆
+- 软删除记忆
+- `active/expired/deleted` 状态边界
+- `expires_at` 过期时间
+- 过期扫描
+- 检索时排除 deleted 和 expired 记忆
+- API Key、密码、身份证号、银行卡号、验证码拒绝写入
+- 记忆创建、更新、删除、过期、使用、拒绝的审计日志
+- mock / DeepSeek 双模式
+
+对应模块：
 
 - `examples/agent/09_memory_governance`
 
@@ -704,14 +717,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/08_memory_basics`，下一步应该进入：
+如果你已经完成 `examples/agent/09_memory_governance`，下一步应该进入：
 
 ```text
-记忆治理
+工具设计和权限
 ```
 
 入口：
 
-- `examples/agent/09_memory_governance`
+- `examples/agent/10_tool_permissions`
 
-原因是你已经理解了长期记忆的基础闭环：提取、结构化保存、检索和复用。下一步要学习记忆治理：用户如何查看和删除记忆、记忆如何过期、如何更新冲突记忆，以及密码、密钥、身份证号这类敏感信息为什么不能写入长期记忆。
+原因是你已经理解了长期记忆从写入到治理的基本闭环。下一步要进入工具工程：Agent 可以调用哪些工具、工具如何注册、不同用户能不能调用同一个工具、读工具和写工具的风险边界是什么。
