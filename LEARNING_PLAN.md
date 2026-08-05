@@ -495,7 +495,20 @@ Agent 概念
 
 目标：区分聊天历史和长期记忆，学习记忆写入、检索和复用。
 
-对应未来模块：
+已覆盖内容：
+
+- 聊天历史和长期记忆的边界
+- 长期记忆的结构化字段
+- 从用户输入提取 memory candidate
+- `user_memories` 保存用户长期记忆
+- `conversation_messages` 保存原始聊天历史
+- 同一用户同一 memory key 的 upsert 更新
+- 按 `user_id` 隔离记忆
+- 后续请求自动检索并复用相关 memory
+- 记忆使用日志
+- mock / DeepSeek 双模式
+
+对应模块：
 
 - `examples/agent/08_memory_basics`
 
@@ -691,14 +704,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/07_short_term_state`，下一步应该进入：
+如果你已经完成 `examples/agent/08_memory_basics`，下一步应该进入：
 
 ```text
-Agent 记忆基础
+记忆治理
 ```
 
 入口：
 
-- `examples/agent/08_memory_basics`
+- `examples/agent/09_memory_governance`
 
-原因是你已经理解了 Agent 一次执行的短期状态：run、steps、中间结果、失败现场和恢复。下一步要学习长期记忆：哪些用户信息值得保存、如何结构化写入、如何检索复用，以及聊天历史、短期状态和长期记忆的边界。
+原因是你已经理解了长期记忆的基础闭环：提取、结构化保存、检索和复用。下一步要学习记忆治理：用户如何查看和删除记忆、记忆如何过期、如何更新冲突记忆，以及密码、密钥、身份证号这类敏感信息为什么不能写入长期记忆。

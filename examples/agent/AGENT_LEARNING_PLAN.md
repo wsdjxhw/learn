@@ -280,7 +280,7 @@ Agent 概念
 
 ### 08：Agent 记忆基础
 
-未来模块：
+对应模块：
 
 - `examples/agent/08_memory_basics`
 
@@ -288,6 +288,19 @@ Agent 概念
 
 - 理解聊天历史不等于记忆。
 - 理解长期记忆是筛选、压缩、结构化后的信息。
+
+已覆盖内容：
+
+- `conversation_messages` 保存原始聊天历史。
+- `user_memories` 保存结构化长期记忆。
+- `memory_type / key / value / source_text / confidence` 记忆字段。
+- 从用户输入提取 memory candidate。
+- 同一用户同一 memory key 的 upsert 更新。
+- 按 `user_id` 隔离不同用户记忆。
+- 后续请求自动检索相关 memory。
+- 把检索到的 memory 注入模型上下文。
+- `memory_use_logs` 记录记忆使用情况。
+- mock / DeepSeek 双模式。
 
 要做的代码：
 
