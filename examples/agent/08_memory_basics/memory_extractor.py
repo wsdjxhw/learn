@@ -118,6 +118,23 @@ def _extract_profile(text: str) -> list[MemoryCandidate]:
     role_match = re.search(r"我是([^，。！？,.!?]{1,20})", text)
     learn_match = re.search(r"我正在学([^，。！？,.!?]{1,20})", text)
 
+    # 练习一：高价值记忆规则——当前学习主题。
+    # "我正在学 FastAPI" 保存 profile / current_topic = FastAPI，"我正在学 RAG" 同理。
+    # 和通用 learning_topic 规则互斥：FastAPI/RAG 走这里，其他主题走通用规则，
+    # 避免同一个信息被存成两个不同 key，也避免 upsert 时两条记忆互相打架。
+    topic_match = re.search(r"我正在学\s*(FastAPI|RAG)", text)
+    if topic_match:
+        candidates.append(
+            MemoryCandidate(
+                memory_type="profile",
+                key="current_topic",
+                value=topic_match.group(1),
+                source_text=text,
+                confidence=0.9,
+                reason="用户当前学习主题，后续回答可以围绕它展开。",
+            )
+        )
+
     if name_match:
         candidates.append(
             MemoryCandidate(
