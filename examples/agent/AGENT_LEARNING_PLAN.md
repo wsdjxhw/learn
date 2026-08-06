@@ -486,7 +486,7 @@ Agent 概念
 
 ### 14：生产级 RAG 工程
 
-未来模块：
+对应模块：
 
 - `examples/agent/14_production_rag`
 
@@ -494,19 +494,24 @@ Agent 概念
 
 - 学习真实文档处理、metadata、权限隔离、rerank。
 
-要做的代码：
+已覆盖内容：
 
-- 文件上传。
-- 文档解析。
-- chunk 入库。
-- metadata filter。
-- 用户级权限过滤。
-- rerank 教学版实现。
+- 真实文件上传与解析（txt/md/pdf），大小限制、编码回退、未知格式与空文件错误处理。
+- 段落优先切分，超长段落按句末标点再切。
+- documents / chunks 两张表，删除级联。
+- metadata 过滤（category / tags）在检索前做硬条件过滤。
+- 用户级权限过滤：API Key 映射用户，public/private + owner，检索/详情/删除都校验。
+- 两阶段检索：bigram 粗排召回 top-k，启发式 rerank 精排 top-n。
+- 相关性阈值 + 覆盖率下限降权，防止低分巧合匹配污染回答。
+- Agent 检索工具 search_documents，mock / DeepSeek 双模式。
+- 评测前置数据：eval_cases.json + /eval/run 输出 recall@n。
+- 权限隔离在检索源头生效：bob 检索不到 alice 的私有文档。
 
 验收标准：
 
 - 用户只能查到自己有权限的文档。
 - 同一问题能展示召回片段和最终回答。
+- 低相关片段不会进入回答（诚实说资料不足）。
 
 ## 第七部分：数据库和后台任务智能体
 

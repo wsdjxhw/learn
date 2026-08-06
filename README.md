@@ -50,10 +50,10 @@
 29. 危险操作和人工确认
 30. 工具失败和恢复策略
 31. RAG 工具智能体
+32. 生产级 RAG 工程
 
 当前还没有正式展开的模块：
 
-- 生产级 RAG 工程
 - 数据库工具智能体、后台任务智能体、流式智能体输出
 - Agent 前端工作台、运行基座工程
 - Agent Trace 和日志、评测
@@ -633,6 +633,24 @@ Agent 专项详细路线：
 - 理解 sources 进入最终回答并返回给前端
 - 理解检索不到资料时诚实说明不足，防止模型幻觉
 - 理解 mock / DeepSeek 双模式下工具决策的差异
+
+### 32. 生产级 RAG 工程
+
+代码：
+
+[examples/agent/14_production_rag](examples/agent/14_production_rag)
+
+讲解：
+
+[examples/agent/14_production_rag/PRODUCTION_RAG_EXPLAINED.md](examples/agent/14_production_rag/PRODUCTION_RAG_EXPLAINED.md)
+
+学习目标：
+
+- 理解真实文件上传、解析、切分、入库的完整链路
+- 理解 metadata 过滤与关键词检索的区别
+- 理解文档级权限隔离为什么必须在数据库层做
+- 理解两阶段检索（召回 + 精排）和相关性阈值防幻觉
+- 理解评测前置数据如何证明 RAG 改动变好
 
 ## Agent 正式路线
 

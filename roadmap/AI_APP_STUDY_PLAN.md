@@ -39,6 +39,7 @@
 29. 危险操作和人工确认：`examples/agent/11_human_confirmation`
 30. 工具失败和恢复策略：`examples/agent/12_tool_failure_recovery`
 31. RAG 工具智能体：`examples/agent/13_rag_tool_agent`
+32. 生产级 RAG 工程：`examples/agent/14_production_rag`
 
 ## 后续模块
 

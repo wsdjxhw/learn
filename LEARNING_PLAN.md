@@ -620,7 +620,19 @@ Agent 概念
 
 目标：学习真实文档处理、metadata、权限隔离、rerank 和 RAG 评测前置数据。
 
-对应未来模块：
+已覆盖内容：
+
+- 真实文件上传与解析（txt/md/pdf，大小限制与错误处理）
+- 段落优先 + 超长按句子切分
+- documents / chunks 两张表存储，一个事务入库
+- metadata 过滤（category / tags 硬条件过滤）
+- 文档级权限隔离（owner + public/private，权限在检索源头生效）
+- 两阶段检索：bigram 粗排召回 top-k + 启发式 rerank 精排 top-n
+- 相关性阈值 + 覆盖率下限，防止低分巧合匹配污染回答
+- Agent 检索工具（search_documents）+ mock / DeepSeek 双模式
+- 评测前置数据（eval_cases.json + recall@n 运行器）
+
+对应模块：
 
 - `examples/agent/14_production_rag`
 
@@ -768,14 +780,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/13_rag_tool_agent`，下一步应该进入：
+如果你已经完成 `examples/agent/14_production_rag`，下一步应该进入：
 
 ```text
-生产级 RAG 工程
+数据库工具智能体
 ```
 
 入口：
 
-- `examples/agent/14_production_rag`
+- `examples/agent/15_database_tool_agent`
 
-原因是你已经掌握了“把 RAG 包装成 Agent 工具”的最小链路。下一步要把教学版的关键词检索升级成真实项目用的能力：文档文件上传与解析、metadata 过滤、文档级权限隔离、rerank，以及 RAG 评测前置数据。
+原因是你已经掌握了“生产级 RAG”的检索、权限和评测能力。下一步把同一套“工具 + 权限 + 记录”模式迁移到结构化数据上：让 Agent 查询和修改数据库，并记录所有操作。

@@ -1,0 +1,41 @@
+{
+  "description": "RAG 检索评测前置数据集（教学版）。模块 21 的正式评测会复用并扩展这套结构。每条 case：query + 期望命中的文档标题。跑 /eval/run 看 recall@n。",
+  "cases": [
+    {
+      "id": 1,
+      "query": "公司报销流程是什么",
+      "expected_documents": ["公司报销流程"],
+      "hint": "专门讲报销的文档应该被命中，而不是泛泛提到报销的规章制度大全"
+    },
+    {
+      "id": 2,
+      "query": "报销需要准备哪些材料",
+      "expected_documents": ["公司报销流程"],
+      "hint": "报销材料在报销流程文档的『报销材料』一节"
+    },
+    {
+      "id": 3,
+      "query": "请假超过三天需要谁审批",
+      "expected_documents": ["员工请假制度"],
+      "hint": "请假制度文档的『请假流程』一节"
+    },
+    {
+      "id": 4,
+      "query": "病假超过两天需要什么证明",
+      "expected_documents": ["员工请假制度"],
+      "hint": "病假说明在请假制度文档"
+    },
+    {
+      "id": 5,
+      "query": "产品路线图三季度上线什么功能",
+      "expected_documents": ["产品路线图（内部机密）"],
+      "hint": "这是一篇 private 文档：alice（owner）或 admin 跑评测能命中，bob 会失败——用来演示评测必须带上用户身份"
+    },
+    {
+      "id": 6,
+      "query": "加班时长计入什么",
+      "expected_documents": ["公司规章制度大全"],
+      "hint": "加班管理在规章制度大全文档"
+    }
+  ]
+}
