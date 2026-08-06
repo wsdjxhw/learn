@@ -420,13 +420,27 @@ Agent 概念
 
 ### 12：工具失败和恢复策略
 
-未来模块：
+对应模块：
 
 - `examples/agent/12_tool_failure_recovery`
 
 目标：
 
 - 学习超时、重试、降级、失败解释。
+
+已覆盖内容：
+
+- 基于 `11_human_confirmation` 代码独立演进，不跨目录依赖。
+- 工具注册表增加 `timeout_seconds`、`max_retries`、`fallback_tool_name`。
+- `recovery.py` 统一封装工具重试、降级和失败解释。
+- `simulate_failure=timeout/transient/permanent` 稳定复现故障。
+- 短暂失败有限重试。
+- 超时多次失败后使用降级工具。
+- 永久业务失败不重试、不降级。
+- 每次 attempt 记录工具名、耗时、错误码、是否可重试、是否继续重试。
+- `/tool/recovery-preview` 手动观察恢复策略。
+- 确认单 approve 后也复用同一套失败恢复策略。
+- mock / DeepSeek 双模式。
 
 要做的代码：
 

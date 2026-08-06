@@ -580,7 +580,21 @@ Agent 概念
 
 目标：学习工具超时、重试、降级和失败解释。
 
-对应未来模块：
+已覆盖内容：
+
+- 基于 `11_human_confirmation` 代码独立演进
+- 工具配置 `timeout_seconds`、`max_retries`、`fallback_tool_name`
+- `recovery.py` 统一处理重试、降级和失败解释
+- `simulate_failure=timeout/transient/permanent` 稳定复现故障
+- 短暂失败有限重试
+- 超时多次失败后使用降级工具
+- 永久业务失败不重试、不降级
+- attempts 记录每次工具尝试
+- `/tool/recovery-preview` 手动观察恢复策略
+- 确认单 approve 后也复用恢复执行器
+- mock / DeepSeek 双模式
+
+对应模块：
 
 - `examples/agent/12_tool_failure_recovery`
 
@@ -744,14 +758,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/11_human_confirmation`，下一步应该进入：
+如果你已经完成 `examples/agent/12_tool_failure_recovery`，下一步应该进入：
 
 ```text
-工具失败和恢复策略
+RAG 工具智能体
 ```
 
 入口：
 
-- `examples/agent/12_tool_failure_recovery`
+- `examples/agent/13_rag_tool_agent`
 
-原因是你已经理解了危险操作不能直接执行，必须经过确认。下一步要处理另一个真实工程问题：即使工具被授权并确认，外部系统仍可能超时、失败或返回异常，Agent 必须能重试、降级并向用户解释失败原因。
+原因是你已经完成了工具工程的三个核心能力：权限、确认、失败恢复。下一步要把前面学过的 RAG 能力包装成 Agent 可主动调用的工具，让 Agent 能判断什么时候检索知识库，并把 sources 带入最终回答。
