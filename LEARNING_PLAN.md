@@ -559,7 +559,20 @@ Agent 概念
 
 目标：学习删除、付款、发邮件、写数据库前的人工确认流程。
 
-对应未来模块：
+已覆盖内容：
+
+- 基于 `10_tool_permissions` 代码独立演进
+- 高风险写工具增加 `requires_confirmation`
+- 权限通过后创建 `pending` 确认单
+- 确认单保存工具参数快照
+- `/confirmations` 查询确认单
+- `/confirmations/{confirmation_id}/approve` 批准后执行工具
+- `/confirmations/{confirmation_id}/reject` 拒绝后不执行工具
+- `pending/executed/rejected/failed` 状态流转
+- 确认和执行结果进入审计日志
+- mock / DeepSeek 双模式
+
+对应模块：
 
 - `examples/agent/11_human_confirmation`
 
@@ -731,14 +744,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/10_tool_permissions`，下一步应该进入：
+如果你已经完成 `examples/agent/11_human_confirmation`，下一步应该进入：
 
 ```text
-危险操作和人工确认
+工具失败和恢复策略
 ```
 
 入口：
 
-- `examples/agent/11_human_confirmation`
+- `examples/agent/12_tool_failure_recovery`
 
-原因是你已经理解了工具注册表、角色权限、资源级权限和审计日志。下一步要处理更接近真实业务的风险：即使用户有权限，删除、付款、发邮件、修改套餐这类危险写操作也不能直接执行，必须先进入人工确认流程。
+原因是你已经理解了危险操作不能直接执行，必须经过确认。下一步要处理另一个真实工程问题：即使工具被授权并确认，外部系统仍可能超时、失败或返回异常，Agent 必须能重试、降级并向用户解释失败原因。

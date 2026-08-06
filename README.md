@@ -43,10 +43,22 @@
 22. 提示词工程
 23. 结构化输出
 24. 上下文工程
+25. 短期状态管理
+26. Agent 记忆基础
+27. 记忆治理
+28. 工具设计和权限（进行中：已完成前三个练习）
 
 当前还没有正式展开的模块：
 
-- Agent 正式路线的后续工程模块，例如短期状态管理、记忆工程、工具工程、RAG 智能体、评测、安全和完整项目。
+- 人工确认流程
+- 工具失败和恢复策略
+- RAG 工具智能体、生产级 RAG 工程
+- 数据库工具智能体、后台任务智能体、流式智能体输出
+- Agent 前端工作台、运行基座工程
+- Agent Trace 和日志、评测
+- Agent 安全、测试
+- 成本、延迟和并发、生产部署
+- 完整项目、简历和面试复盘
 
 完整项目总路线：
 
@@ -407,6 +419,165 @@ Agent 专项详细路线：
 - 理解工具结果如何进入最终回答
 - 理解工具白名单和参数校验
 - 理解 mock 工具调用和真实模型工具调用的区别
+
+### 20. 最小 Agent 循环
+
+代码：
+
+[examples/agent/02_minimal_agent_loop](examples/agent/02_minimal_agent_loop)
+
+讲解：
+
+[examples/agent/02_minimal_agent_loop/AGENT_LOOP_EXPLAINED.md](examples/agent/02_minimal_agent_loop/AGENT_LOOP_EXPLAINED.md)
+
+学习目标：
+
+- 理解 Agent 核心循环：user input、model decision、tool call、observation、final answer
+- 理解最大循环次数和防止无限调用
+- 理解中间步骤如何记录
+- 理解 mock 模型如何模拟工具决策
+
+### 21. 多工具编排
+
+代码：
+
+[examples/agent/03_multi_tool_orchestration](examples/agent/03_multi_tool_orchestration)
+
+讲解：
+
+[examples/agent/03_multi_tool_orchestration/MULTI_TOOL_ORCHESTRATION_EXPLAINED.md](examples/agent/03_multi_tool_orchestration/MULTI_TOOL_ORCHESTRATION_EXPLAINED.md)
+
+学习目标：
+
+- 理解一个用户目标如何拆成多个工具动作
+- 理解工具依赖关系和数据传递（from_step）
+- 理解工具失败后的跳过和降级
+- 理解 `stop_on_error` 对比
+- 理解每一步的输入、输出、耗时和错误记录
+
+### 22. 提示词工程
+
+代码：
+
+[examples/agent/04_prompt_engineering](examples/agent/04_prompt_engineering)
+
+讲解：
+
+[examples/agent/04_prompt_engineering/PROMPT_ENGINEERING_EXPLAINED.md](examples/agent/04_prompt_engineering/PROMPT_ENGINEERING_EXPLAINED.md)
+
+学习目标：
+
+- 理解 system prompt 的职责
+- 理解 prompt 独立文件管理和版本化
+- 理解 `PROMPT_VERSION` 配置
+- 理解用 mock 模型对比不同 prompt 版本的行为
+- 理解 prompt 改动对工具选择的影响
+
+### 23. 结构化输出
+
+代码：
+
+[examples/agent/05_structured_output](examples/agent/05_structured_output)
+
+讲解：
+
+[examples/agent/05_structured_output/STRUCTURED_OUTPUT_EXPLAINED.md](examples/agent/05_structured_output/STRUCTURED_OUTPUT_EXPLAINED.md)
+
+学习目标：
+
+- 理解固定 JSON 输出契约
+- 理解 JSON 解析和 Pydantic 校验分层
+- 理解缺字段、类型错误、非法枚举值处理
+- 理解失败重试和降级为人工审核
+- 理解 mock / DeepSeek 双模式
+
+### 24. 上下文工程
+
+代码：
+
+[examples/agent/06_context_engineering](examples/agent/06_context_engineering)
+
+讲解：
+
+[examples/agent/06_context_engineering/CONTEXT_ENGINEERING_EXPLAINED.md](examples/agent/06_context_engineering/CONTEXT_ENGINEERING_EXPLAINED.md)
+
+学习目标：
+
+- 理解 system prompt、当前问题、历史消息、RAG source、工具 observation 分层
+- 理解 token 预算和上下文裁剪
+- 理解 RAG 相关性过滤
+- 理解工具 observation 注入
+- 理解 `/context/preview` 预览模型真实输入
+
+### 25. 短期状态管理
+
+代码：
+
+[examples/agent/07_short_term_state](examples/agent/07_short_term_state)
+
+讲解：
+
+[examples/agent/07_short_term_state/SHORT_TERM_STATE_EXPLAINED.md](examples/agent/07_short_term_state/SHORT_TERM_STATE_EXPLAINED.md)
+
+学习目标：
+
+- 理解一次请求状态和一次 Agent run 状态的区别
+- 理解 `agent_runs` 和 `agent_steps` 表
+- 理解 `run_id` 状态查询和 `pending/running/succeeded/failed` 流转
+- 理解失败现场保存和从失败 run 恢复执行
+
+### 26. Agent 记忆基础
+
+代码：
+
+[examples/agent/08_memory_basics](examples/agent/08_memory_basics)
+
+讲解：
+
+[examples/agent/08_memory_basics/MEMORY_BASICS_EXPLAINED.md](examples/agent/08_memory_basics/MEMORY_BASICS_EXPLAINED.md)
+
+学习目标：
+
+- 区分聊天历史、短期状态和长期记忆
+- 理解从用户输入提取结构化记忆候选
+- 理解按 `user_id` 隔离记忆，避免跨用户污染
+- 理解记忆写入的 upsert 更新
+- 理解后续请求检索并复用记忆
+
+### 27. 记忆治理
+
+代码：
+
+[examples/agent/09_memory_governance](examples/agent/09_memory_governance)
+
+讲解：
+
+[examples/agent/09_memory_governance/MEMORY_GOVERNANCE_EXPLAINED.md](examples/agent/09_memory_governance/MEMORY_GOVERNANCE_EXPLAINED.md)
+
+学习目标：
+
+- 理解记忆查看和删除
+- 理解记忆过期
+- 理解记忆更新策略
+- 理解敏感信息拒绝写入
+
+### 28. 工具设计和权限（进行中）
+
+代码：
+
+[examples/agent/10_tool_permissions](examples/agent/10_tool_permissions)
+
+讲解：
+
+[examples/agent/10_tool_permissions/TOOL_PERMISSIONS_EXPLAINED.md](examples/agent/10_tool_permissions/TOOL_PERMISSIONS_EXPLAINED.md)
+
+学习目标：
+
+- 理解工具注册表和工具 schema
+- 理解角色权限（viewer / operator / admin）
+- 理解参数级权限和资源级权限
+- 理解写工具和高风险工具的风险控制
+- 理解审计日志
 
 ## Agent 正式路线
 

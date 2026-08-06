@@ -386,13 +386,26 @@ Agent 概念
 
 ### 11：危险操作和人工确认
 
-未来模块：
+对应模块：
 
 - `examples/agent/11_human_confirmation`
 
 目标：
 
 - 学习删除、付款、发邮件、写数据库前的确认流程。
+
+已覆盖内容：
+
+- 基于 `10_tool_permissions` 代码独立演进，不跨目录依赖。
+- `requires_confirmation` 工具元数据。
+- 高风险写工具通过权限检查后只创建待确认单，不直接执行。
+- `pending/executed/rejected/failed` 确认单状态流转。
+- `PendingConfirmation` 保存工具名、参数快照、发起人、批准人和执行结果。
+- `/confirmations` 查询待确认操作。
+- `/confirmations/{confirmation_id}/approve` 批准后才执行工具。
+- `/confirmations/{confirmation_id}/reject` 拒绝后不执行工具。
+- 确认创建、批准执行、拒绝都会进入审计日志。
+- mock / DeepSeek 双模式。
 
 要做的代码：
 
