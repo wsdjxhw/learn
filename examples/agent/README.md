@@ -18,20 +18,25 @@ Agent 模块建立在前面 AI 应用后端地基之上。
 6. [结构化输出](05_structured_output/README.md)
 7. [上下文工程](06_context_engineering/README.md)
 8. [短期状态管理](07_short_term_state/README.md)
+9. [Agent 记忆基础](08_memory_basics/README.md)
+10. [记忆治理](09_memory_governance/README.md)
+11. [工具设计和权限](10_tool_permissions/README.md)
+12. [危险操作和人工确认](11_human_confirmation/README.md)
+13. [工具失败和恢复策略](12_tool_failure_recovery/README.md)
+14. [RAG 工具智能体](13_rag_tool_agent/README.md)
 
 ## 后续主线
 
-1. 记忆工程
-2. 工具工程
-3. RAG 智能体
-4. 数据库智能体
-5. 后台任务智能体
-6. 流式智能体
-7. 运行基座工程
-8. 可观测性
-9. 评测
-10. 安全
-11. 测试
-12. 成本、延迟和并发
-13. 生产部署
-14. 完整项目
+1. 生产级 RAG 工程
+2. 数据库智能体
+3. 后台任务智能体
+4. 流式智能体
+5. Agent 前端工作台
+6. 运行基座工程
+7. 可观测性
+8. 评测
+9. 安全
+10. 测试
+11. 成本、延迟和并发
+12. 生产部署
+13. 完整项目

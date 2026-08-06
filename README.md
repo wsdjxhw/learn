@@ -46,13 +46,14 @@
 25. 短期状态管理
 26. Agent 记忆基础
 27. 记忆治理
-28. 工具设计和权限（进行中：已完成前三个练习）
+28. 工具设计和权限
+29. 危险操作和人工确认
+30. 工具失败和恢复策略
+31. RAG 工具智能体
 
 当前还没有正式展开的模块：
 
-- 人工确认流程
-- 工具失败和恢复策略
-- RAG 工具智能体、生产级 RAG 工程
+- 生产级 RAG 工程
 - 数据库工具智能体、后台任务智能体、流式智能体输出
 - Agent 前端工作台、运行基座工程
 - Agent Trace 和日志、评测
@@ -561,7 +562,7 @@ Agent 专项详细路线：
 - 理解记忆更新策略
 - 理解敏感信息拒绝写入
 
-### 28. 工具设计和权限（进行中）
+### 28. 工具设计和权限
 
 代码：
 
@@ -578,6 +579,60 @@ Agent 专项详细路线：
 - 理解参数级权限和资源级权限
 - 理解写工具和高风险工具的风险控制
 - 理解审计日志
+
+### 29. 危险操作和人工确认
+
+代码：
+
+[examples/agent/11_human_confirmation](examples/agent/11_human_confirmation)
+
+讲解：
+
+[examples/agent/11_human_confirmation/HUMAN_CONFIRMATION_EXPLAINED.md](examples/agent/11_human_confirmation/HUMAN_CONFIRMATION_EXPLAINED.md)
+
+学习目标：
+
+- 理解为什么删除、付款、发邮件这类高风险写操作需要人工确认
+- 理解 `pending` / `executed` / `rejected` / `failed` 确认单状态流转
+- 理解确认单保存工具参数快照
+- 理解 approve 后才真正执行、reject 后不执行
+- 理解确认和执行结果进入审计日志
+
+### 30. 工具失败和恢复策略
+
+代码：
+
+[examples/agent/12_tool_failure_recovery](examples/agent/12_tool_failure_recovery)
+
+讲解：
+
+[examples/agent/12_tool_failure_recovery/TOOL_FAILURE_RECOVERY_EXPLAINED.md](examples/agent/12_tool_failure_recovery/TOOL_FAILURE_RECOVERY_EXPLAINED.md)
+
+学习目标：
+
+- 理解超时、短暂失败、永久失败的处理差异
+- 理解有限重试和最大重试次数
+- 理解降级工具什么时候有价值
+- 理解 attempts 为什么必须结构化记录
+- 理解失败解释要返回给用户而不是只暴露堆栈
+
+### 31. RAG 工具智能体
+
+代码：
+
+[examples/agent/13_rag_tool_agent](examples/agent/13_rag_tool_agent)
+
+讲解：
+
+[examples/agent/13_rag_tool_agent/RAG_TOOL_AGENT_EXPLAINED.md](examples/agent/13_rag_tool_agent/RAG_TOOL_AGENT_EXPLAINED.md)
+
+学习目标：
+
+- 理解 RAG 检索如何包装成 Agent 可主动调用的工具
+- 理解 Agent 判断“什么时候需要检索”
+- 理解 sources 进入最终回答并返回给前端
+- 理解检索不到资料时诚实说明不足，防止模型幻觉
+- 理解 mock / DeepSeek 双模式下工具决策的差异
 
 ## Agent 正式路线
 

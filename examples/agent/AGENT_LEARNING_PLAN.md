@@ -457,24 +457,32 @@ Agent 概念
 
 ### 13：RAG 工具智能体
 
-未来模块：
+对应模块：
 
 - `examples/agent/13_rag_tool_agent`
 
 目标：
 
 - 把前面 RAG 能力变成 Agent 可以主动调用的工具。
+- Agent 判断“要不要检索”，而不是用户每次请求都强制检索。
+- sources 进入最终回答，检索不到资料时诚实说明不足。
 
-要做的代码：
+已覆盖内容：
 
-- `search_documents` 工具。
-- sources 进入最终回答。
-- 检索不到资料时说明不足。
+- `search_documents` 工具：把 RAG 检索包装成 Agent 可主动调用的工具。
+- 工具注册表 + API Key 认证 + 后端权限兜底 + 工具审计日志复用模块 10-12。
+- mock / DeepSeek 双模式：mock 用关键词判断要不要检索，DeepSeek 走 function calling 语义判断。
+- 中文 bigram 分词：让整句中文问题也能命中，同时暴露关键词检索的误匹配弱点。
+- sources 作为一级字段返回，同时进入最终回答文本。
+- 检索为空时明确说明资料不足，防止模型幻觉。
+- `allow_tool=false` 对比“能检索”和“不能检索”的差异。
+- `/tool/run` 手动执行检索工具观察 sources 结构。
 
 验收标准：
 
 - Agent 能判断什么时候需要检索。
 - 回答能引用 sources。
+- 检索不到资料时不编造，明确说明知识库不足。
 
 ### 14：生产级 RAG 工程
 

@@ -32,6 +32,13 @@
 22. 提示词工程：`examples/agent/04_prompt_engineering`
 23. 结构化输出：`examples/agent/05_structured_output`
 24. 上下文工程：`examples/agent/06_context_engineering`
+25. 短期状态管理：`examples/agent/07_short_term_state`
+26. Agent 记忆基础：`examples/agent/08_memory_basics`
+27. 记忆治理：`examples/agent/09_memory_governance`
+28. 工具设计和权限：`examples/agent/10_tool_permissions`
+29. 危险操作和人工确认：`examples/agent/11_human_confirmation`
+30. 工具失败和恢复策略：`examples/agent/12_tool_failure_recovery`
+31. RAG 工具智能体：`examples/agent/13_rag_tool_agent`
 
 ## 后续模块
 

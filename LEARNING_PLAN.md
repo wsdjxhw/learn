@@ -602,7 +602,17 @@ Agent 概念
 
 目标：把前面学过的 RAG 变成 Agent 可以主动调用的工具。
 
-对应未来模块：
+已覆盖内容：
+
+- `search_documents` 工具：把 RAG 检索包装成 Agent 可主动调用的工具。
+- Agent 决策层：判断“要不要检索”，而不是用户每次请求都强制检索。
+- sources 进入最终回答，并作为一级字段返回给前端。
+- 检索不到资料时诚实说明不足，防止模型幻觉。
+- 中文 bigram 分词，让整句中文也能命中。
+- 复用工具注册表、API Key 认证、后端权限兜底和工具审计日志。
+- mock / DeepSeek 双模式。
+
+对应模块：
 
 - `examples/agent/13_rag_tool_agent`
 
@@ -758,14 +768,14 @@ Agent 概念
 
 ## 当前推荐下一步
 
-如果你已经完成 `examples/agent/12_tool_failure_recovery`，下一步应该进入：
+如果你已经完成 `examples/agent/13_rag_tool_agent`，下一步应该进入：
 
 ```text
-RAG 工具智能体
+生产级 RAG 工程
 ```
 
 入口：
 
-- `examples/agent/13_rag_tool_agent`
+- `examples/agent/14_production_rag`
 
-原因是你已经完成了工具工程的三个核心能力：权限、确认、失败恢复。下一步要把前面学过的 RAG 能力包装成 Agent 可主动调用的工具，让 Agent 能判断什么时候检索知识库，并把 sources 带入最终回答。
+原因是你已经掌握了“把 RAG 包装成 Agent 工具”的最小链路。下一步要把教学版的关键词检索升级成真实项目用的能力：文档文件上传与解析、metadata 过滤、文档级权限隔离、rerank，以及 RAG 评测前置数据。

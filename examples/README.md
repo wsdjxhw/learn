@@ -30,6 +30,25 @@
 
 - `../deploy/docker`：Docker 和部署框架
 
+## Agent 方向
+
+- `agent/README.md`：Agent 模块目录入口
+- `agent/AGENT_LEARNING_PLAN.md`：Agent 专项详细路线
+- `agent/00_what_is_agent`：什么是 Agent
+- `agent/01_tool_calling`：工具调用
+- `agent/02_minimal_agent_loop`：最小 Agent 循环
+- `agent/03_multi_tool_orchestration`：多工具编排
+- `agent/04_prompt_engineering`：提示词工程
+- `agent/05_structured_output`：结构化输出
+- `agent/06_context_engineering`：上下文工程
+- `agent/07_short_term_state`：短期状态管理
+- `agent/08_memory_basics`：Agent 记忆基础
+- `agent/09_memory_governance`：记忆治理
+- `agent/10_tool_permissions`：工具设计和权限
+- `agent/11_human_confirmation`：危险操作和人工确认
+- `agent/12_tool_failure_recovery`：工具失败和恢复策略
+- `agent/13_rag_tool_agent`：RAG 工具智能体
+
 ## Go 补充
 
 - `go/README.md`：Go 补充路线入口
