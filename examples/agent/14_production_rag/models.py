@@ -48,6 +48,7 @@ class Document(Base):
     # visibility：可见范围。public=所有人可见；private=仅 owner 和 admin 可见。
     # 真实项目通常不只有两级，而是用权限表 / 部门树 / 共享成员列表，教学版先讲清楚两级够用。
     visibility = Column(String(20), nullable=False, default="private")
+    shared_with = Column(String(250), nullable=True)  # 共享给的用户 ID，逗号分隔
 
     # ---------- metadata（元数据）相关字段 ----------
     # 真实项目里 metadata 一般是一个 JSON 字段（PostgreSQL 的 JSONB），

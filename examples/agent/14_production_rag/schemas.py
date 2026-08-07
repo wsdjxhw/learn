@@ -50,6 +50,7 @@ class DocumentListItem(BaseModel):
     file_size: int
     owner_id: str
     visibility: str
+    shared_with: Optional[str] = None
     category: Optional[str] = None
     tags: Optional[str] = None
     chunk_count: int
@@ -60,6 +61,17 @@ class DocumentDetail(DocumentListItem):
     """文档详情（列表项 + 原文预览 + 全部片段）。"""
     content_preview: str
     chunks: list[ChunkItem] = []
+
+
+class ShareRequest(BaseModel):
+    """分享请求：要把文档共享给谁。"""
+    user_ids: list[str] = Field(..., description="用户 ID 列表，例如 ['bob']")
+
+
+class ShareResult(BaseModel):
+    """分享结果：落库后的共享状态，方便接口验证。"""
+    document_id: int
+    shared_with: str = Field("", description="当前共享给了哪些用户（逗号分隔），空串 = 未共享")
 
 
 # ------------------------- 工具执行 DTO -------------------------

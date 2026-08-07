@@ -12,6 +12,7 @@ main.py - FastAPI 接口层
 - GET  /documents           当前用户可见的文档列表（体验权限隔离）
 - GET  /documents/{id}      文档详情 + 全部片段
 - DELETE /documents/{id}    删除文档（只有 owner 或 admin 能删）
+- POST  /documents/{id}/share  把文档共享给指定用户（只有 owner/admin 能分享）
 - POST /search              手动检索：对比“粗排候选”和“rerank 后结果”
 - GET  /tools               查看工具 schema
 - POST /tool/run            手动执行 search_documents 工具
@@ -307,6 +308,43 @@ def delete_document(
     db.delete(doc)
     db.commit()
     return {"deleted": True, "document_id": doc_id}
+
+
+# ------------------------- 4.5 文档共享（练习一：分享可见） -------------------------
+
+@app.post("/documents/{doc_id}/share", response_model=schemas.ShareResult)
+def share_document(
+    doc_id: int,
+    req: schemas.ShareRequest,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """把文档共享给指定用户。
+
+    这是练习一要求的“改接口”部分：存储字段（models.py）和权限判断（permissions.py）
+    都改好之后，必须有一个接口能写 shared_with，否则没法通过 HTTP 验证共享效果。
+
+    为什么复用 can_delete_document 而不是新写一个“能分享”的判断？
+    分享是一种写操作（改变文档的可见范围），写操作权限从严：
+    只有 owner 自己或 admin 能分享。别人能看你的文档，不等于能分享你的文档。
+    """
+    doc = db.get(Document, doc_id)
+    if not doc:
+        raise HTTPException(status_code=404, detail="文档不存在")
+    if not can_delete_document(user, doc):
+        raise HTTPException(status_code=403, detail="只有文档所有者或管理员可以分享")
+
+    # 归一化：去掉空格、过滤空串，保证和 permissions.py 里的 split 规则一致。
+    # 真实项目里分享通常落在单独一张关联表（document_shares），教学版直接更新字段。
+    shared = ",".join(u.strip() for u in req.user_ids if u.strip())
+    # 空列表 = 取消所有共享（shared_with 存 None，permissions.py 按“未共享”处理）
+    doc.shared_with = shared or None
+    db.commit()
+    db.refresh(doc)
+    return schemas.ShareResult(
+        document_id=doc.id,
+        shared_with=doc.shared_with or "",
+    )
 
 
 # ------------------------- 5. 手动检索（对比粗排和精排） -------------------------

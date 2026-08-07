@@ -84,6 +84,11 @@ def can_view_document(user: User, doc: Document) -> bool:
     - 特殊授权（临时链接 / 过期授权）。
     万变不离其宗：最后都收敛成一个布尔判断“这个用户对这个文档有没有权限”。
     """
+    # 文档共享给了哪些用户：逗号分隔的字符串 -> 列表。
+    # strip + 过滤空串：避免存成 "alice, bob"（带空格）或 "alice,,bob" 时匹配失败。
+    shared_users = [u.strip() for u in doc.shared_with.split(",")] if doc.shared_with else []
+    if user.user_id in shared_users:
+        return True
     if user.is_admin():
         return True
     if doc.visibility == "public":
