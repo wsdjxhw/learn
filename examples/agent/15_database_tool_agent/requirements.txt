@@ -1,0 +1,11 @@
+# 数据库工具智能体依赖
+# 安装命令：pip install -r requirements.txt
+# 如果只想跑 mock 模式（推荐先这样），可以把 openai 那行注释掉，减少安装体积。
+
+fastapi>=0.115          # Web 框架，提供 /docs 等接口
+uvicorn[standard]>=0.30 # ASGI 服务器，负责真正启动服务
+sqlalchemy>=2.0         # ORM，把 Python 类和数据库表对应起来
+pydantic>=2.7           # 数据校验（DTO / 参数校验 / 配置校验）
+pydantic-settings>=2.3  # 从 .env 读配置
+openai>=1.40            # 通过 OpenAI 兼容协议调用 DeepSeek（真实模型模式才用）
+pytest>=8.0             # 跑 tests/ 里的安全测试
